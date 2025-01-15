@@ -1,130 +1,142 @@
-import { useState, useEffect } from 'react'
-import { createProduct } from '../services/ProductServices'
-import { getCategories } from '../services/CategoryServices'
-import { ToastContainer, toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
+import { useState, useEffect } from 'react';
+import { createProperty } from '../services/PropertyServices'; // Change the service to PropertyServices
+import { getCategories } from '../services/CategoryServices'; // You can keep the categories if applicable
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-const AdminProductForm = () => {
-  const [productData, setProductData] = useState({
+const PropertyForm = () => {
+  const [propertyData, setPropertyData] = useState({
     name: '',
     description: '',
     price: '',
     imageUrl: '',
     category: '',
-    stockQuantity: '',
-    discount: ''
-  })
+    location: '',
+    amenities: '',
+    availability: true,
+    discount: '',
+    discountedPrice: '',
+    createdAt: '',
+  });
 
-  const [categories, setCategories] = useState([])
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const categoriesFromDB = await getCategories()
-        setCategories(categoriesFromDB)
+        const categoriesFromDB = await getCategories();
+        setCategories(categoriesFromDB);
       } catch (error) {
-        console.error('Error fetching categories:', error)
-        toast.error('Failed to load categories. Please try again.')
+        console.error('Error fetching categories:', error);
+        toast.error('Failed to load categories. Please try again.');
       }
-    }
+    };
 
-    fetchCategories()
-  }, [])
+    fetchCategories();
+  }, []);
 
   const handleChange = (e) => {
-    const { name, value } = e.target
-    setProductData({ ...productData, [name]: value })
-  }
+    const { name, value, type, checked } = e.target;
+    setPropertyData({
+      ...propertyData,
+      [name]: type === 'checkbox' ? checked : value,
+    });
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    if (productData.discount > 100) {
-      toast.error('Discount cannot exceed 100%. Please adjust the value.')
-      return
+    if (propertyData.discount > 100) {
+      toast.error('Discount cannot exceed 100%. Please adjust the value.');
+      return;
     }
 
     try {
-      await createProduct(productData)
-      toast.success('Product added successfully!')
-      setProductData({
+      await createProperty(propertyData);
+      toast.success('Property added successfully!');
+      setPropertyData({
         name: '',
         description: '',
         price: '',
         imageUrl: '',
         category: '',
-        stockQuantity: '',
-        discount: ''
-      })
+        location: '',
+        amenities: '',
+        availability: true,
+        discount: '',
+        discountedPrice: '',
+        createdAt: '',
+      });
     } catch (error) {
-      console.error('Error adding product:', error)
-      if (
-        error.response &&
-        error.response.data &&
-        error.response.data.message
-      ) {
-        toast.error(`Error: ${error.response.data.message}`)
+      console.error('Error adding property:', error);
+      if (error.response && error.response.data && error.response.data.message) {
+        toast.error(`Error: ${error.response.data.message}`);
       } else if (error.message) {
-        toast.error(`Error: ${error.message}`)
+        toast.error(`Error: ${error.message}`);
       } else {
-        toast.error('Failed to add product. Please try again.')
+        toast.error('Failed to add property. Please try again.');
       }
     }
-  }
+  };
 
   return (
     <div>
       <ToastContainer />
-      <form className="product-form" onSubmit={handleSubmit}>
-        <h2 className="form-title">Add New Product</h2>
+      <form className="property-form" onSubmit={handleSubmit}>
+        <h2 className="form-title">Add New Property</h2>
+
         <div className="form-group">
           <label className="form-label">Name:</label>
           <input
             type="text"
             name="name"
-            value={productData.name}
+            value={propertyData.name}
             onChange={handleChange}
             className="form-input"
             required
           />
         </div>
+
         <div className="form-group">
           <label className="form-label">Description:</label>
           <textarea
             name="description"
-            value={productData.description}
+            value={propertyData.description}
             onChange={handleChange}
             className="form-textarea"
             required
           />
         </div>
+
         <div className="form-group">
           <label className="form-label">Price:</label>
           <input
             type="number"
             name="price"
-            value={productData.price}
+            value={propertyData.price}
             onChange={handleChange}
             className="form-input"
             required
           />
         </div>
+
         <div className="form-group">
           <label className="form-label">Image URL:</label>
           <input
             type="text"
             name="imageUrl"
-            value={productData.imageUrl}
+            value={propertyData.imageUrl}
             onChange={handleChange}
             className="form-input"
             required
           />
         </div>
+
         <div className="form-group">
           <label className="form-label">Category:</label>
           <select
             name="category"
-            value={productData.category}
+            value={propertyData.category}
             onChange={handleChange}
             className="form-select"
             required
@@ -139,34 +151,84 @@ const AdminProductForm = () => {
             ))}
           </select>
         </div>
+
         <div className="form-group">
-          <label className="form-label">Stock Quantity:</label>
+          <label className="form-label">Location:</label>
           <input
-            type="number"
-            name="stockQuantity"
-            value={productData.stockQuantity}
+            type="text"
+            name="location"
+            value={propertyData.location}
             onChange={handleChange}
             className="form-input"
             required
           />
         </div>
+
         <div className="form-group">
-          <label className="form-label">Discount:</label>
+          <label className="form-label">Amenities:</label>
+          <input
+            type="text"
+            name="amenities"
+            value={propertyData.amenities}
+            onChange={handleChange}
+            className="form-input"
+            required
+          />
+        </div>
+
+        <div className="form-group">
+          <label className="form-label">Availability:</label>
+          <input
+            type="checkbox"
+            name="availability"
+            checked={propertyData.availability}
+            onChange={handleChange}
+            className="form-input"
+          />
+        </div>
+
+        <div className="form-group">
+          <label className="form-label">Discount (%):</label>
           <input
             type="number"
             name="discount"
-            value={productData.discount}
+            value={propertyData.discount}
             onChange={handleChange}
             className="form-input"
             required
           />
         </div>
+
+        <div className="form-group">
+          <label className="form-label">Discounted Price:</label>
+          <input
+            type="number"
+            name="discountedPrice"
+            value={propertyData.discountedPrice}
+            onChange={handleChange}
+            className="form-input"
+            required
+          />
+        </div>
+
+        <div className="form-group">
+          <label className="form-label">Created At:</label>
+          <input
+            type="text"
+            name="createdAt"
+            value={propertyData.createdAt}
+            onChange={handleChange}
+            className="form-input"
+            disabled
+          />
+        </div>
+
         <button type="submit" className="form-submit-button">
-          Add Product
+          Add Property
         </button>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default AdminProductForm
+export default PropertyForm;
