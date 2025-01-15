@@ -1,176 +1,204 @@
-import { useEffect, useState } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
-import { getProduct, updateProduct } from '../services/ProductServices'
-import { deleteProduct } from '../services/ProductServices'
-import { getCategories } from '../services/CategoryServices'
-import { ToastContainer, toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
+import { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { getProperty, updateProperty } from '../services/PropertyServices'; // Update service
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-const EditProductForm = () => {
-  const { productId } = useParams()
-  const [productData, setProductData] = useState({
+const EditPropertyForm = () => {
+  const { propertyId } = useParams();
+  const [propertyData, setPropertyData] = useState({
     name: '',
     description: '',
     price: '',
     imageUrl: '',
     category: '',
-    stockQuantity: '',
-    discount: ''
-  })
-  const [error, setError] = useState(null)
-  const [categories, setCategories] = useState([])
-  const navigate = useNavigate()
+    location: '',
+    amenities: '',
+    availability: true,
+    discount: '',
+    discountedPrice: '',
+    createdAt: '',
+  });
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchProductDetails = async () => {
+    const fetchPropertyDetails = async () => {
       try {
-        const product = await getProduct(productId)
-        setProductData(product)
+        const property = await getProperty(propertyId);
+        setPropertyData(property);
       } catch (err) {
-        console.error('Error fetching product details:', err)
-        toast.error('Failed to load product details.')
+        console.error('Error fetching property details:', err);
+        toast.error('Failed to load property details.');
       }
-    }
-    const fetchCategories = async () => {
-      try {
-        const categoriesFromDB = await getCategories()
-        setCategories(categoriesFromDB)
-      } catch (error) {
-        console.error('Error fetching categories:', error)
-        toast.error('Failed to load categories. Please try again.')
-      }
-    }
+    };
 
-    fetchProductDetails()
-    fetchCategories()
-  }, [productId])
+    fetchPropertyDetails();
+  }, [propertyId]);
 
   const handleChange = (e) => {
-    const { name, value } = e.target
-    setProductData({ ...productData, [name]: value })
-  }
+    const { name, value, type, checked } = e.target;
+    setPropertyData({
+      ...propertyData,
+      [name]: type === 'checkbox' ? checked : value,
+    });
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-
-    if (productData.discount > 100) {
-      toast.error('Discount cannot exceed 100%. Please adjust the value.')
-      return
-    }
+    e.preventDefault();
 
     const updatedData = {
-      ...productData,
-      price: productData.price,
-      stockQuantity: productData.stockQuantity
-    }
+      ...propertyData,
+    };
 
     try {
-      console.log('Submitting data to update:', updatedData)
-      await updateProduct(productId, updatedData)
-      toast.success('Product updated successfully!')
-      navigate('/products')
+      console.log('Submitting data to update:', updatedData);
+      await updateProperty(propertyId, updatedData); // Update service call
+      toast.success('Property updated successfully!');
+      navigate('/properties'); // Update navigation path
     } catch (err) {
-      console.error(
-        'Error updating product:',
-        err.response?.data || err.message
-      )
-      toast.error('Failed to update product. Please try again.')
+      console.error('Error updating property:', err.response?.data || err.message);
+      toast.error('Failed to update property. Please try again.');
     }
-  }
+  };
 
   if (error) {
-    return <p className="error-message">{error}</p>
+    return <p className="error-message">{error}</p>;
   }
 
   return (
     <div className="form-container">
       <ToastContainer />
-      <form className="product-form" onSubmit={handleSubmit}>
-        <h2 className="form-title">Edit Product</h2>
+      <form className="property-form" onSubmit={handleSubmit}>
+        <h2 className="form-title">Edit Property</h2>
+
         <div className="form-group">
           <label className="form-label">Name:</label>
           <input
             className="form-input"
             type="text"
             name="name"
-            value={productData.name}
+            value={propertyData.name}
             onChange={handleChange}
           />
         </div>
+
         <div className="form-group">
           <label className="form-label">Description:</label>
           <textarea
             className="form-textarea"
             name="description"
-            value={productData.description}
+            value={propertyData.description}
             onChange={handleChange}
           />
         </div>
+
         <div className="form-group">
           <label className="form-label">Price:</label>
           <input
             className="form-input"
             type="number"
             name="price"
-            value={productData.price}
+            value={propertyData.price}
             onChange={handleChange}
           />
         </div>
+
         <div className="form-group">
           <label className="form-label">Image URL:</label>
           <input
             className="form-input"
             type="text"
             name="imageUrl"
-            value={productData.imageUrl}
+            value={propertyData.imageUrl}
             onChange={handleChange}
           />
         </div>
+
         <div className="form-group">
           <label className="form-label">Category:</label>
-          <select
-            className="form-select"
-            name="category"
-            value={productData.category}
-            onChange={handleChange}
-            required
-          >
-            <option value="" disabled>
-              Select a category
-            </option>
-            {categories.map((category) => (
-              <option key={category._id} value={category._id}>
-                {category.name}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="form-group">
-          <label className="form-label">Stock Quantity:</label>
           <input
             className="form-input"
-            type="number"
-            name="stockQuantity"
-            value={productData.stockQuantity}
+            type="text"
+            name="category"
+            value={propertyData.category}
             onChange={handleChange}
           />
         </div>
+
         <div className="form-group">
-          <label className="form-label">Discount:</label>
+          <label className="form-label">Location:</label>
+          <input
+            className="form-input"
+            type="text"
+            name="location"
+            value={propertyData.location}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div className="form-group">
+          <label className="form-label">Amenities:</label>
+          <input
+            className="form-input"
+            type="text"
+            name="amenities"
+            value={propertyData.amenities}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div className="form-group">
+          <label className="form-label">Availability:</label>
+          <input
+            className="form-input"
+            type="checkbox"
+            name="availability"
+            checked={propertyData.availability}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div className="form-group">
+          <label className="form-label">Discount (%):</label>
           <input
             className="form-input"
             type="number"
             name="discount"
-            value={productData.discount}
+            value={propertyData.discount}
             onChange={handleChange}
           />
         </div>
+
+        <div className="form-group">
+          <label className="form-label">Discounted Price:</label>
+          <input
+            className="form-input"
+            type="number"
+            name="discountedPrice"
+            value={propertyData.discountedPrice}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div className="form-group">
+          <label className="form-label">Created At:</label>
+          <input
+            className="form-input"
+            type="text"
+            name="createdAt"
+            value={propertyData.createdAt}
+            onChange={handleChange}
+            disabled
+          />
+        </div>
+
         <button className="form-submit-button" type="submit">
-          Update Product
+          Update Property
         </button>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default EditProductForm
+export default EditPropertyForm;
