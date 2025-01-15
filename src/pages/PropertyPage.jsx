@@ -1,6 +1,6 @@
-import AdminProductForm from '../components/CategoryForm'
+import CategoryForm from '../components/CategoryForm'
 
-const AdminPage = () => {
+const CategoryPage = () => {
   return (
     <div>
       <CategoryForm/>
@@ -8,4 +8,4 @@ const AdminPage = () => {
   )
 }
 
-export default AdminPage
+export default CategoryPage
