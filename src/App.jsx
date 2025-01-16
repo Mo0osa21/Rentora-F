@@ -4,6 +4,7 @@ import Nav from './components/Nav'
 import Register from './pages/Register'
 import SignIn from './pages/SignIn'
 import Home from './pages/Home'
+import PropertiesPage from './pages/PropertiesPage'
 import './App.css'
 import { CheckSession } from './services/Auth'
 import { useEffect } from 'react'
@@ -36,6 +37,7 @@ const App = () => {
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/PropertiesPage" element={<PropertiesPage />} />
           <Route path="/signin" element={<SignIn setUser={setUser} />} />
           <Route path="/register" element={<Register />} />
         </Routes>
