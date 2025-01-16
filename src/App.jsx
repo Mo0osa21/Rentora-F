@@ -5,6 +5,7 @@ import Register from './pages/Register'
 import SignIn from './pages/SignIn'
 import Home from './pages/Home'
 import PropertiesPage from './pages/PropertiesPage'
+import PropertyForm from './components/PropertyForm'
 import './App.css'
 import { CheckSession } from './services/Auth'
 import { useEffect } from 'react'
@@ -40,6 +41,7 @@ const App = () => {
           <Route path="/signin" element={<SignIn setUser={setUser} />} />
           <Route path="/register" element={<Register />} />
           <Route path="/home" element={<PropertiesPage />} />
+          <Route path="/newProperty" element={<PropertyForm />} />
         </Routes>
       </main>
     </div>
