@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { getCategories } from '../services/CategoryServices'
+import { GetCategories } from '../services/CategoryServices'
 
 const CategoryDropdown = ({ selectedCategory, onCategoryChange }) => {
   const [categories, setCategories] = useState([])
@@ -8,7 +8,7 @@ const CategoryDropdown = ({ selectedCategory, onCategoryChange }) => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const categoryData = await getCategories()
+        const categoryData = await GetCategories()
         setCategories(categoryData)
       } catch (err) {
         console.error('Error fetching categories:', err)

@@ -1,5 +1,17 @@
 import Client from './api'
 
+export const getPropertiesByCategory = async (categoryId) => {
+  try {
+    console.log(`Fetching properties for category: ${categoryId}`)
+    const response = await Client.get(`/properties?category=${categoryId}`)
+    console.log('Properties by category:', response.data)
+    return response.data
+  } catch (error) {
+    console.error('Error fetching properties by category:', error)
+    throw error
+  }
+}
+
 // Get all properties (with optional filters)
 export const GetProperties = async (filters = {}) => {
   try {
