@@ -1,58 +1,51 @@
 import Client from './api'
 
-export const getReviews = async (productId) => {
+// Get all reviews for a specific property
+export const GetReviewsForProperty = async (propertyId) => {
   try {
-    const response = await Client.get(`/reviews/${productId}`)
-    return response.data
+    const res = await Client.get(`/reviews/${propertyId}`)
+    return res.data
   } catch (error) {
-    console.error('Error fetching reviews:', error)
     throw error
   }
 }
 
-export const checkReviewEligibility = async (userId, productId) => {
+// Add a new review for a property
+export const AddReview = async (data) => {
   try {
-    const response = await Client.get(
-      `/reviews/check-eligibility/${userId}/${productId}`
-    )
-    return response.data
+    const res = await Client.post('/reviews', data)
+    return res.data
   } catch (error) {
-    console.error('Error checking review eligibility:', error)
     throw error
   }
 }
 
-export const addReview = async (reviewData) => {
+// Check if a user is eligible to review a property
+export const CheckReviewEligibility = async (userId, propertyId) => {
   try {
-    const response = await Client.post('/reviews', reviewData)
-    return response.data
+    const res = await Client.get(`/reviews/eligibility/${userId}/${propertyId}`)
+    return res.data
   } catch (error) {
-    console.error('Error adding review:', error)
     throw error
   }
 }
 
-export const editReview = async (reviewId, reviewData, userId) => {
+// Edit an existing review
+export const EditReview = async (reviewId, data) => {
   try {
-    const response = await Client.put(`/reviews/${reviewId}`, {
-      comment: reviewData,
-      userId
-    })
-    return response.data
+    const res = await Client.put(`/reviews/${reviewId}`, data)
+    return res.data
   } catch (error) {
-    console.error('Error updating review:', error)
     throw error
   }
 }
 
-export const deleteReview = async (reviewId, userId) => {
+// Delete a review
+export const DeleteReview = async (reviewId) => {
   try {
-    const response = await Client.delete(`/reviews/${reviewId}`, {
-      data: { userId }
-    })
-    return response.data
+    const res = await Client.delete(`/reviews/${reviewId}`)
+    return res.data
   } catch (error) {
-    console.error('Error deleting review:', error)
     throw error
   }
 }

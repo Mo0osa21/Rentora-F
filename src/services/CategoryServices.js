@@ -1,53 +1,41 @@
 import Client from './api'
 
-export const getCategories = async () => {
+// Fetch all categories
+export const GetCategories = async () => {
   try {
-    const response = await Client.get('/categories')
-    return response.data
+    const res = await Client.get('/categories')
+    return res.data
   } catch (error) {
-    console.error(
-      'Error fetching categories:',
-      error.response?.data || error.message
-    )
     throw error
   }
 }
 
-export const createCategory = async (categoryData) => {
+// Create a new category
+export const CreateCategory = async (data) => {
   try {
-    const response = await Client.post('/categories', categoryData)
-    return response.data
+    const res = await Client.post('/categories', data)
+    return res.data
   } catch (error) {
-    console.error(
-      'Error creating category:',
-      error.response?.data || error.message
-    )
     throw error
   }
 }
 
-export const updateCategory = async (categoryId, updatedData) => {
+// Update an existing category
+export const UpdateCategory = async (categoryId, data) => {
   try {
-    const response = await Client.put(`/categories/${categoryId}`, updatedData)
-    return response.data
+    const res = await Client.put(`/categories/${categoryId}`, data)
+    return res.data
   } catch (error) {
-    console.error(
-      'Error updating category:',
-      error.response?.data || error.message
-    )
     throw error
   }
 }
 
-export const deleteCategory = async (categoryId) => {
+// Delete a category
+export const DeleteCategory = async (categoryId) => {
   try {
-    const response = await Client.delete(`/categories/${categoryId}`)
-    return response.data
+    const res = await Client.delete(`/categories/${categoryId}`)
+    return res.data
   } catch (error) {
-    console.error(
-      'Error deleting category:',
-      error.response?.data || error.message
-    )
     throw error
   }
 }
