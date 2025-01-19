@@ -1,59 +1,62 @@
-import { useParams, useNavigate } from 'react-router-dom'
-import { useEffect, useState } from 'react'
-import { GetProperty } from '../services/PropertyServices'
-import { PlaceBooking, GetPropertyBookings } from '../services/BookServices'
-import { ToastContainer, toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
-import { MdArrowBackIosNew } from 'react-icons/md'
+import { useParams, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { GetProperty } from '../services/PropertyServices';
+import { PlaceBooking, GetPropertyBookings } from '../services/BookServices';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { MdArrowBackIosNew } from 'react-icons/md';
 
 const PropertyDetails = ({ user }) => {
-  const { propertyId } = useParams()
-  const navigate = useNavigate()
-  const [property, setProperty] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
-  const [startDate, setStartDate] = useState('')
-  const [endDate, setEndDate] = useState('')
-  const [bookedDates, setBookedDates] = useState([])
+  const { propertyId } = useParams();
+  const navigate = useNavigate();
+  const [property, setProperty] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+  const [bookedDates, setBookedDates] = useState([]);
 
-  // Fetch property and its bookings
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const propertyData = await GetProperty(propertyId)
-        setProperty(propertyData)
+        const propertyData = await GetProperty(propertyId);
+        setProperty(propertyData);
 
-        const bookings = await GetPropertyBookings(propertyId)
+        const bookings = await GetPropertyBookings(propertyId);
         const dates = bookings.flatMap((booking) => {
-          const start = new Date(booking.startDate)
-          const end = new Date(booking.endDate)
-          const dateArray = []
+          const start = new Date(booking.startDate);
+          const end = new Date(booking.endDate);
+          const dateArray = [];
 
           for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
-            dateArray.push(new Date(d).toISOString().split('T')[0])
+            dateArray.push(new Date(d).toISOString().split('T')[0]);
           }
-          return dateArray
-        })
+          return dateArray;
+        });
 
-        setBookedDates(dates)
+        setBookedDates(dates);
       } catch (err) {
-        console.error('Error fetching data:', err)
-        toast.error('Failed to load data.')
+        console.error('Error fetching data:', err);
+        toast.error('Failed to load data.');
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
+    };
 
-    fetchData()
-  }, [propertyId])
+    fetchData();
+  }, [propertyId]);
 
-  // Disable selecting reserved dates
-  const isDateBooked = (date) => bookedDates.includes(date)
+  const isDateBooked = (date) => bookedDates.includes(date);
 
   const handlePlaceOrder = async () => {
     if (!startDate || !endDate) {
-      toast.error('Please select both start and end dates.')
-      return
+      toast.error('Please select both start and end dates.');
+      return;
+    }
+
+    if (new Date(endDate) < new Date(startDate)){
+        toast.error('End date cannot be before start date.');
+        return;
     }
     try {
       const orderData = {
@@ -61,24 +64,37 @@ const PropertyDetails = ({ user }) => {
         user: user.id,
         startDate,
         endDate,
-        price: property.discountedPrice
-      }
-      await PlaceBooking(orderData)
-      toast.success('Reservation successful')
-      navigate('/bookings')
+        price: property.discountedPrice,
+      };
+      await PlaceBooking(orderData);
+      toast.success('Reservation successful');
+      navigate('/bookings');
     } catch (err) {
-      console.error('Error placing order:', err)
-      toast.error('Failed to place order')
+      console.error('Error placing order:', err);
+      toast.error('Failed to place order');
     }
-  }
+  };
 
   const handleBackButton = () => {
-    navigate('/home')
-  }
+    navigate('/home');
+  };
 
-  if (loading) return <p>Loading...</p>
-  if (error) return <p style={{ color: 'red' }}>{error}</p>
-  if (!property) return <p>Property not found.</p>
+  const handleEndDateChange = (e) => {
+    const selectedEndDate = e.target.value;
+    if (startDate && selectedEndDate < startDate) {
+      toast.error('End date cannot be before start date.');
+      return;
+    }
+    if (isDateBooked(selectedEndDate)) {
+        toast.error('Selected end date is already booked.')
+        return
+      }
+    setEndDate(selectedEndDate);
+  };
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p style={{ color: 'red' }}>{error}</p>;
+  if (!property) return <p>Property not found.</p>;
 
   return (
     <div className="property-details" style={{ position: 'relative' }}>
@@ -98,31 +114,27 @@ const PropertyDetails = ({ user }) => {
           type="date"
           value={startDate}
           onChange={(e) => {
-            if (isDateBooked(e.target.value)) {
+             if (isDateBooked(e.target.value)) {
               toast.error('Selected start date is already booked.')
               return
             }
-            setStartDate(e.target.value)
+            setStartDate(e.target.value);
+            setEndDate('');
           }}
         />
         <label>End Date:</label>
         <input
           type="date"
           value={endDate}
-          onChange={(e) => {
-            if (isDateBooked(e.target.value)) {
-              toast.error('Selected end date is already booked.')
-              return
-            }
-            setEndDate(e.target.value)
-          }}
+          onChange={handleEndDateChange}
+          min={startDate}
         />
       </div>
       <button onClick={handlePlaceOrder} className="action-button place-order">
         Reserve Property
       </button>
     </div>
-  )
-}
+  );
+};
 
-export default PropertyDetails
+export default PropertyDetails;
