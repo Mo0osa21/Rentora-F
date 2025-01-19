@@ -59,9 +59,9 @@ const PropertiesPage = ({ user }) => {
   }, [selectedCategory, searchQuery])
 
   return (
-    <div>
+    <div className="container">
       <ToastContainer />
-      <div className="browse-properties-header">
+      <div className="header-container">
         <h1>Browse Properties</h1>
       </div>
 
@@ -75,16 +75,18 @@ const PropertiesPage = ({ user }) => {
         />
       </div>
 
-      <CategoryDropdown
-        selectedCategory={selectedCategory}
-        onCategoryChange={setSelectedCategory}
-      />
+      <div className="category-dropdown">
+        <CategoryDropdown
+          selectedCategory={selectedCategory}
+          onCategoryChange={setSelectedCategory}
+        />
+      </div>
 
-      <div className="properties-grid">
+      <div className="card-wrapper">
         {error && <p className="error-message">{error}</p>}
         {properties && properties.length > 0 ? (
           properties.map((property) => (
-            <div key={property._id} className="property-card">
+            <div key={property._id} className="card">
               <Link to={`/property/${property._id}`}>
                 <img
                   src={property.imageUrl}

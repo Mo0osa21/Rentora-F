@@ -7,7 +7,12 @@ const Nav = ({ user, handleLogOut }) => {
       <nav>
         <h3>Welcome {user.email}!</h3>
         <Link to="home">Home</Link>
+
+        <Link to="/bookings">Book</Link>
+        <Link to="/home">My Properties</Link>
+
         <Link to="propertyform">Add new property</Link>
+
         <Link onClick={handleLogOut} to="/">
           Sign Out
         </Link>
@@ -27,11 +32,11 @@ const Nav = ({ user, handleLogOut }) => {
     <header>
       <Link to="/">
         <div className="logo-wrapper" alt="logo">
-          <img
+          {/* <img
             className="logo"
             src="https://avatars.dicebear.com/api/gridy/app.svg"
             alt="welcome banner"
-          />
+          /> */}
         </div>
       </Link>
       {user ? userOptions : publicOptions}
