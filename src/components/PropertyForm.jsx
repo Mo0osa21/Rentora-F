@@ -3,6 +3,7 @@ import { CreateProperty } from '../services/PropertyServices'; // Change the ser
 import { GetCategories } from '../services/CategoryServices'; // You can keep the categories if applicable
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { redirect } from 'react-router-dom';
 
 const PropertyForm = () => {
   const [propertyData, setPropertyData] = useState({

@@ -17,10 +17,12 @@ const Nav = ({ user, handleLogOut }) => {
 
   const publicOptions = (
     <nav>
-      <Link to="/">Home</Link>
-      <Link to="/register">Register</Link>
-      <Link to="/signin">Sign In</Link>
-    </nav>
+    <div className="nav-buttons"> {/* Container for buttons */}
+      <Link to="/" className="nav-button">Home</Link>
+      <Link to="/register" className="nav-button">Register</Link>
+      <Link to="/signin" className="nav-button">Sign In</Link>
+    </div>
+  </nav>
   )
 
   return (
