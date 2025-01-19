@@ -1,63 +1,85 @@
 import React, { useEffect, useState } from 'react'
-import { getUserOrders } from '../services/OrderServices'
+import { GetUserBookings, CancelBooking } from '../services/BookServices'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 const UserBookings = () => {
-  const [orders, setOrders] = useState([])
-  const [error, setError] = useState(null)
+  const [bookings, setBookings] = useState([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const fetchOrders = async () => {
+    const fetchBookings = async () => {
       try {
-        const orders = await getUserOrders()
-        setOrders(orders)
+        const response = await GetUserBookings()
+        setBookings(response)
       } catch (error) {
-        console.error('Error fetching orders:', error.message)
-        toast.error('Failed to fetch orders. Please try again.')
+        console.error('Error fetching bookings:', error.message)
+        toast.error('Failed to load your bookings.')
       } finally {
         setLoading(false)
       }
     }
 
-    fetchOrders()
+    fetchBookings()
   }, [])
 
+  const handleCancelBooking = async (bookingId) => {
+    try {
+      await CancelBooking(bookingId)
+      toast.success('Booking cancelled successfully.')
+      setBookings(bookings.filter((booking) => booking._id !== bookingId))
+    } catch (error) {
+      console.error('Error cancelling booking:', error.message)
+      toast.error('Failed to cancel booking.')
+    }
+  }
+
+  const formatDate = (date) => new Date(date).toLocaleDateString()
+
+  if (loading) return <p>Loading your bookings...</p>
+
   return (
-    <div className="user-orders-page">
+    <div className="user-bookings-page">
       <ToastContainer />
-      <h1>My Orders</h1>
-      {loading && <p>Loading...</p>}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      {orders.length === 0 && !loading && !error && <p>No orders available</p>}
-      {orders.length > 0 && (
-        <table>
-          <thead>
-            <tr>
-              <th>Order ID</th>
-              <th>Products</th>
-              <th>Status</th>
-              <th>Total Price</th>
-            </tr>
-          </thead>
-          <tbody>
-            {orders.map((order) => (
-              <tr key={order._id}>
-                <td>{order._id}</td>
-                <td>
-                  {order.products.map((p) => (
-                    <div key={p.product._id}>
-                      {p.product.name} (x{p.quantity})
-                    </div>
-                  ))}
-                </td>
-                <td>{order.status}</td>
-                <td>${order.totalPrice}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <h1>My Bookings</h1>
+
+      {bookings.length === 0 ? (
+        <p>No bookings yet. Start exploring properties!</p>
+      ) : (
+        <div className="bookings-container">
+          {bookings.map((booking) => (
+            <div key={booking._id} className="booking-card">
+              <img
+                src={booking.property.imageUrl}
+                alt={booking.property.name}
+                className="booking-image"
+              />
+              <div className="booking-info">
+                <h3>{booking.property.name}</h3>
+                <p>Location: {booking.property.location}</p>
+                <p>
+                  Dates: {formatDate(booking.startDate)} -{' '}
+                  {formatDate(booking.endDate)}
+                </p>
+                <p>Total Price: ${booking.totalPrice}</p>
+                <p
+                  className={`status ${
+                    booking.status === 'confirmed' ? 'confirmed' : 'cancelled'
+                  }`}
+                >
+                  Status: {booking.status}
+                </p>
+
+                <button
+                  onClick={() => handleCancelBooking(booking._id)}
+                  className="cancel-button"
+                >
+                  Cancel Booking
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
       )}
     </div>
   )
