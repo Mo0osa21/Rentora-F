@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { createProperty } from '../services/PropertyServices'; // Change the service to PropertyServices
-import { getCategories } from '../services/CategoryServices'; // You can keep the categories if applicable
+import { CreateProperty } from '../services/PropertyServices'; // Change the service to PropertyServices
+import { GetCategories } from '../services/CategoryServices'; // You can keep the categories if applicable
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -24,7 +24,7 @@ const PropertyForm = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const categoriesFromDB = await getCategories();
+        const categoriesFromDB = await GetCategories();
         setCategories(categoriesFromDB);
       } catch (error) {
         console.error('Error fetching categories:', error);
@@ -52,7 +52,7 @@ const PropertyForm = () => {
     }
 
     try {
-      await createProperty(propertyData);
+      await CreateProperty(propertyData);
       toast.success('Property added successfully!');
       setPropertyData({
         name: '',
