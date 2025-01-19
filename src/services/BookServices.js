@@ -43,3 +43,23 @@ export const UpdateBookingStatus = async (bookId, status) => {
     throw error
   }
 }
+
+export const GetPropertyBookings = async (propertyId) => {
+  try {
+    const res = await Client.get(`books/property/${propertyId}`)
+    return res.data.bookings
+  } catch (error) {
+    console.error('Error fetching property bookings:', error)
+    throw error
+  }
+}
+
+export const CancelBooking = async (bookingId) => {
+  const token = localStorage.getItem('token')
+
+  await Client.delete(`books/${bookingId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+}

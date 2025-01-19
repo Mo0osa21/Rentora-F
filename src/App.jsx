@@ -5,9 +5,11 @@ import Register from './pages/Register'
 import SignIn from './pages/SignIn'
 import Home from './pages/Home'
 import PropertiesPage from './pages/PropertiesPage'
+import UserBookings from './pages/UserBookings'
 import './App.css'
 import { CheckSession } from './services/Auth'
 import { useEffect } from 'react'
+import PropertyDetails from './pages/PropertyDetails'
 
 const App = () => {
   const [user, setUser] = useState(null)
@@ -40,6 +42,11 @@ const App = () => {
           <Route path="/signin" element={<SignIn setUser={setUser} />} />
           <Route path="/register" element={<Register />} />
           <Route path="/home" element={<PropertiesPage />} />
+          <Route
+            path="/property/:propertyId"
+            element={<PropertyDetails user={user} />}
+          />
+          <Route path="/bookings" element={<UserBookings />} />
         </Routes>
       </main>
     </div>
