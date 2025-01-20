@@ -5,6 +5,7 @@ import { PlaceBooking, GetPropertyBookings } from '../services/BookServices'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { MdArrowBackIosNew } from 'react-icons/md'
+import Reviews from '../components/Reviews' // Import the Reviews component
 
 const PropertyDetails = ({ user }) => {
   const { propertyId } = useParams()
@@ -100,63 +101,73 @@ const PropertyDetails = ({ user }) => {
     <div className="property-details" style={{ position: 'relative' }}>
       <ToastContainer />
 
-      <div className="back-button">
-        <button onClick={handleBackButton}>
-          <MdArrowBackIosNew />
-        </button>
-      </div>
-
-      <div className="property-info">
-        <h1>{property.name}</h1>
-        <div className="property-image">
-          <img src={property.imageUrl} alt={property.name} />
-        </div>
-        <p className="property-description">{property.description}</p>
-        <div className="property-details-row">
-          <p>
-            Price per night: <span>${property.discountedPrice}</span>
-          </p>
-          <p>
-            Location: <span>{property.location}</span>
-          </p>
-          <p>
-            Category: <span>{property.category?.name || 'No Category'}</span>
-          </p>
-        </div>
-      </div>
-
-      <div className="booking-form">
-        <div className="date-container">
-          <label>Start Date:</label>
-          <input
-            type="date"
-            value={startDate}
-            onChange={(e) => {
-              if (isDateBooked(e.target.value)) {
-                toast.error('Selected start date is already booked.')
-                return
-              }
-              setStartDate(e.target.value)
-              setEndDate('')
-            }}
-          />
-          <label>End Date:</label>
-          <input
-            type="date"
-            value={endDate}
-            onChange={handleEndDateChange}
-            min={startDate}
-          />
-        </div>
-
-        <div className="reserve-button-container">
-          <button
-            onClick={handlePlaceOrder}
-            className="action-button place-order"
-          >
-            Reserve Property
+      <div className="header-section">
+        <div className="back-button">
+          <button onClick={handleBackButton}>
+            <MdArrowBackIosNew />
           </button>
         </div>
+      </div>
+
+      <div className="property-info-section">
+        <div className="property-info">
+          <h1>{property.name}</h1>
+          <div className="property-image">
+            <img src={property.imageUrl} alt={property.name} />
+          </div>
+          <p className="property-description">{property.description}</p>
+          <div className="property-details-row">
+            <p>
+              Price per night: <span>${property.discountedPrice}</span>
+            </p>
+            <p>
+              Location: <span>{property.location}</span>
+            </p>
+            <p>
+              Category: <span>{property.category?.name || 'No Category'}</span>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div className="booking-section">
+        <div className="booking-form">
+          <div className="date-container">
+            <label>Start Date:</label>
+            <input
+              type="date"
+              value={startDate}
+              onChange={(e) => {
+                if (isDateBooked(e.target.value)) {
+                  toast.error('Selected start date is already booked.')
+                  return
+                }
+                setStartDate(e.target.value)
+                setEndDate('')
+              }}
+            />
+            <label>End Date:</label>
+            <input
+              type="date"
+              value={endDate}
+              onChange={handleEndDateChange}
+              min={startDate}
+            />
+          </div>
+
+          <div className="reserve-button-container">
+            <button
+              onClick={handlePlaceOrder}
+              className="action-button place-order"
+            >
+              Reserve Property
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div className="reviews-section">
+        <Reviews propertyId={propertyId} user={user} />
       </div>
     </div>
   )
