@@ -62,3 +62,14 @@ export const DeleteProperty = async (propertyId) => {
     throw error
   }
 }
+
+export const GetPropertiesByUser = async (userId) => {
+  try {
+    const response = await Client.get(`/properties?owner=${userId}`);
+    console.log('Properties by user:', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching properties by user:', error);
+    throw error;
+  }
+};

@@ -16,8 +16,6 @@ const EditPropertyForm = () => {
     amenities: '',
     availability: true,
     discount: '',
-    discountedPrice: '',
-    createdAt: '',
   });
   const [error, setError] = useState(null);
   const navigate = useNavigate();
