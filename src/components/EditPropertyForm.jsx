@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { getProperty, updateProperty } from '../services/PropertyServices'; // Update service
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { useEffect, useState } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
+import { GetProperty, UpdateProperty } from '../services/PropertyServices' // Update service
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const EditPropertyForm = () => {
-  const { propertyId } = useParams();
+  const { propertyId } = useParams()
   const [propertyData, setPropertyData] = useState({
     name: '',
     description: '',
@@ -15,55 +15,56 @@ const EditPropertyForm = () => {
     location: '',
     amenities: '',
     availability: true,
-    discount: '',
-    discountedPrice: '',
-    createdAt: '',
-  });
-  const [error, setError] = useState(null);
-  const navigate = useNavigate();
+    discount: ''
+  })
+  const [error, setError] = useState(null)
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchPropertyDetails = async () => {
       try {
-        const property = await getProperty(propertyId);
-        setPropertyData(property);
+        const property = await GetProperty(propertyId)
+        setPropertyData(property)
       } catch (err) {
-        console.error('Error fetching property details:', err);
-        toast.error('Failed to load property details.');
+        console.error('Error fetching property details:', err)
+        toast.error('Failed to load property details.')
       }
-    };
+    }
 
-    fetchPropertyDetails();
-  }, [propertyId]);
+    fetchPropertyDetails()
+  }, [propertyId])
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value, type, checked } = e.target
     setPropertyData({
       ...propertyData,
-      [name]: type === 'checkbox' ? checked : value,
-    });
-  };
+      [name]: type === 'checkbox' ? checked : value
+    })
+  }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
     const updatedData = {
-      ...propertyData,
-    };
+      ...propertyData
+    }
 
     try {
-      console.log('Submitting data to update:', updatedData);
-      await updateProperty(propertyId, updatedData); // Update service call
-      toast.success('Property updated successfully!');
-      navigate('/properties'); // Update navigation path
+      console.log('Submitting data to update:', updatedData)
+      await UpdateProperty(propertyId, updatedData) // Update service call
+      toast.success('Property updated successfully!')
+      navigate('/my-properties') // Update navigation path
     } catch (err) {
-      console.error('Error updating property:', err.response?.data || err.message);
-      toast.error('Failed to update property. Please try again.');
+      console.error(
+        'Error updating property:',
+        err.response?.data || err.message
+      )
+      toast.error('Failed to update property. Please try again.')
     }
-  };
+  }
 
   if (error) {
-    return <p className="error-message">{error}</p>;
+    return <p className="error-message">{error}</p>
   }
 
   return (
@@ -170,35 +171,12 @@ const EditPropertyForm = () => {
           />
         </div>
 
-        <div className="form-group">
-          <label className="form-label">Discounted Price:</label>
-          <input
-            className="form-input"
-            type="number"
-            name="discountedPrice"
-            value={propertyData.discountedPrice}
-            onChange={handleChange}
-          />
-        </div>
-
-        <div className="form-group">
-          <label className="form-label">Created At:</label>
-          <input
-            className="form-input"
-            type="text"
-            name="createdAt"
-            value={propertyData.createdAt}
-            onChange={handleChange}
-            disabled
-          />
-        </div>
-
         <button className="form-submit-button" type="submit">
           Update Property
         </button>
       </form>
     </div>
-  );
-};
+  )
+}
 
-export default EditPropertyForm;
+export default EditPropertyForm

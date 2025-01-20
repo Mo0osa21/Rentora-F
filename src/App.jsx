@@ -11,6 +11,8 @@ import './App.css'
 import { CheckSession } from './services/Auth'
 import { useEffect } from 'react'
 import PropertyDetails from './pages/PropertyDetails'
+import UserPropertiesPage from './pages/UserPropertiesPage'
+import EditPropertyForm from './components/EditPropertyForm'
 
 const App = () => {
   const [user, setUser] = useState(null)
@@ -43,13 +45,17 @@ const App = () => {
           <Route path="/signin" element={<SignIn setUser={setUser} />} />
           <Route path="/register" element={<Register />} />
           <Route path="/home" element={<PropertiesPage />} />
-          <Route path='/propertyform' element={<PropertyForm />}/>
+          <Route path="/propertyform" element={<PropertyForm />} />
           <Route
             path="/property/:propertyId"
             element={<PropertyDetails user={user} />}
           />
           <Route path="/bookings" element={<UserBookings />} />
-
+          <Route path="/my-properties" element={<UserPropertiesPage />} />
+          <Route
+            path="/edit-property/:propertyId"
+            element={<EditPropertyForm />}
+          />
         </Routes>
       </main>
     </div>

@@ -62,3 +62,13 @@ export const DeleteProperty = async (propertyId) => {
     throw error
   }
 }
+
+export const GetUserProperties = async () => {
+  const token = localStorage.getItem('token')
+  const { data } = await Client.get('/properties/user/my-properties', {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+  return data
+}

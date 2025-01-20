@@ -9,7 +9,7 @@ const Nav = ({ user, handleLogOut }) => {
         <Link to="home">Home</Link>
 
         <Link to="/bookings">Book</Link>
-        <Link to="/home">My Properties</Link>
+        <Link to="/my-properties">My Properties</Link>
 
         <Link to="propertyform">Add new property</Link>
 
