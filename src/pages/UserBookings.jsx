@@ -41,46 +41,58 @@ const UserBookings = () => {
   return (
     <div className="user-bookings-page">
       <ToastContainer />
-      <h1>My Bookings</h1>
-
-      {bookings.length === 0 ? (
-        <p>No bookings yet. Start exploring properties!</p>
-      ) : (
-        <div className="bookings-container">
-          {bookings.map((booking) => (
-            <div key={booking._id} className="booking-card">
-              <img
-                src={booking.property.imageUrl}
-                alt={booking.property.name}
-                className="booking-image"
-              />
-              <div className="booking-info">
-                <h3>{booking.property.name}</h3>
-                <p>Location: {booking.property.location}</p>
-                <p>
-                  Dates: {formatDate(booking.startDate)} -{' '}
-                  {formatDate(booking.endDate)}
-                </p>
-                <p>Total Price: ${booking.totalPrice}</p>
-                <p
-                  className={`status ${
-                    booking.status === 'confirmed' ? 'confirmed' : 'cancelled'
-                  }`}
-                >
-                  Status: {booking.status}
-                </p>
-
-                <button
-                  onClick={() => handleCancelBooking(booking._id)}
-                  className="cancel-button"
-                >
-                  Cancel Booking
-                </button>
+      <div className="bookings-header">
+        <h1>My Bookings</h1>
+      </div>
+      <div className="bookings-content">
+        {bookings.length === 0 ? (
+          <div className="no-bookings">
+            <p>No bookings yet. Start exploring properties!</p>
+          </div>
+        ) : (
+          <div className="bookings-list">
+            {bookings.map((booking) => (
+              <div key={booking._id} className="booking-card">
+                <div className="booking-image-wrapper">
+                  <img
+                    src={booking.property.imageUrl}
+                    alt={booking.property.name}
+                    className="booking-image"
+                  />
+                </div>
+                <div className="booking-info-wrapper">
+                  <h3 className="property-name">{booking.property.name}</h3>
+                  <p className="property-location">
+                    Location: {booking.property.location}
+                  </p>
+                  <p className="booking-dates">
+                    Dates: {formatDate(booking.startDate)} -{' '}
+                    {formatDate(booking.endDate)}
+                  </p>
+                  <p className="booking-price">
+                    Total Price: ${booking.totalPrice}
+                  </p>
+                  <p
+                    className={`booking-status ${
+                      booking.status === 'confirmed' ? 'confirmed' : 'cancelled'
+                    }`}
+                  >
+                    Status: {booking.status}
+                  </p>
+                  <div className="booking-actions">
+                    <button
+                      onClick={() => handleCancelBooking(booking._id)}
+                      className="cancel-button"
+                    >
+                      Cancel Booking
+                    </button>
+                  </div>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
-      )}
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   )
 }

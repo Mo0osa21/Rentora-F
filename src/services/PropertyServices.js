@@ -63,13 +63,13 @@ export const DeleteProperty = async (propertyId) => {
   }
 }
 
-export const GetPropertiesByUser = async (userId) => {
-  try {
-    const response = await Client.get(`/properties?owner=${userId}`);
-    console.log('Properties by user:', response.data);
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching properties by user:', error);
-    throw error;
-  }
-};
+
+export const GetUserProperties = async () => {
+  const token = localStorage.getItem('token')
+  const { data } = await Client.get('/properties/user/my-properties', {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+  return data
+}

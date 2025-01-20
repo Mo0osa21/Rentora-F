@@ -65,6 +65,7 @@ const PropertiesPage = ({ user }) => {
         <h1>Browse Properties</h1>
       </div>
 
+      {/* Search Bar Section */}
       <div className="search-bar-container">
         <input
           type="text"
@@ -75,13 +76,17 @@ const PropertiesPage = ({ user }) => {
         />
       </div>
 
-      <div className="category-dropdown">
-        <CategoryDropdown
-          selectedCategory={selectedCategory}
-          onCategoryChange={setSelectedCategory}
-        />
+      {/* Category Filter Section */}
+      <div className="category-filter-container">
+        <div className="category-dropdown">
+          <CategoryDropdown
+            selectedCategory={selectedCategory}
+            onCategoryChange={setSelectedCategory}
+          />
+        </div>
       </div>
 
+      {/* Properties Display Section */}
       <div className="card-wrapper">
         {error && <p className="error-message">{error}</p>}
         {properties && properties.length > 0 ? (
