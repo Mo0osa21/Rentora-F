@@ -20,6 +20,7 @@ const EditPropertyForm = () => {
   const [error, setError] = useState(null)
   const navigate = useNavigate()
 
+
   useEffect(() => {
     const fetchPropertyDetails = async () => {
       try {

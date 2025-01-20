@@ -63,6 +63,7 @@ export const DeleteProperty = async (propertyId) => {
   }
 }
 
+
 export const GetUserProperties = async () => {
   const token = localStorage.getItem('token')
   const { data } = await Client.get('/properties/user/my-properties', {

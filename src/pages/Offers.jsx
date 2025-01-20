@@ -1,171 +1,90 @@
-import { useEffect, useState } from 'react'
-import { getProducts, deleteProduct } from '../services/ProductServices'
-import { addToCart } from '../services/CartServices'
-import { useNavigate } from 'react-router-dom'
-import { Link } from 'react-router-dom'
-import { ToastContainer, toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
+import { useEffect, useState } from 'react';
+import { GetProperties, DeleteProperty } from '../services/PropertyServices';
+import { useNavigate, Link } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Offers = ({ user }) => {
-  const [products, setProducts] = useState([])
-  const [error, setError] = useState(null)
-  const navigate = useNavigate()
-
-  const [quantities, setQuantities] = useState({})
+  const [properties, setProperties] = useState([]);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchProducts = async () => {
+    const fetchProperties = async () => {
       try {
-        const data = await getProducts()
-        setProducts(data.filter((product) => product.discount > 0))
-      } catch (err) {
-        console.error('Error fetching products:', err)
-        setError('Failed to fetch products.')
-      }
-    }
-    fetchProducts()
-  }, [])
-
-  const handleAddToCart = async (productId, quantity, price, discount = 0) => {
-    try {
-      const products = [
-        {
-          product: productId,
-          quantity: quantity,
-          price: price,
-          discount: discount
+        const allProperties = await GetProperties();
+        if(allProperties){
+            const discountedProperties = allProperties.filter(
+                (property) => property.discount > 0
+            );
+            setProperties(discountedProperties);
+        } else {
+            setProperties([]);
         }
-      ]
-      await addToCart(products)
-      setQuantities((prevQuantities) => ({
-        ...prevQuantities,
-        [productId]: 0
-      }))
-      toast.success('Product added to cart successfully!')
-    } catch (err) {
-      console.error('Error adding product to cart:', err)
-      toast.error('Failed to add product. Please try again.')
-    }
-  }
+      } catch (err) {
+        console.error('Error fetching properties:', err);
+        setError('Failed to fetch properties.');
+      }
+    };
+    fetchProperties();
+  }, []);
 
-  const handleDelete = async (productId) => {
+  const handleDelete = async (propertyId) => {
     try {
-      await deleteProduct(productId)
-      toast.success('Product deleted successfully!')
-      setProducts((prevProducts) =>
-        prevProducts.filter((product) => product._id !== productId)
-      )
+      await DeleteProperty(propertyId);
+      toast.success('Property deleted successfully!');
+      setProperties((prevProperties) =>
+        prevProperties.filter((property) => property._id !== propertyId)
+      );
     } catch (err) {
-      console.error('Error details:', err.response?.data || err.message)
-      toast.error('Failed to delete product. Please try again.')
+      console.error('Error details:', err.response?.data || err.message);
+      toast.error('Failed to delete property. Please try again.');
     }
-  }
-
-  const handleQuantityChange = (productId, event) => {
-    const newQuantity = Math.max(1, event.target.value)
-    setQuantities((prevQuantities) => ({
-      ...prevQuantities,
-      [productId]: newQuantity
-    }))
-  }
+  };
 
   return (
-    <div>
+    <div className="container">
       <ToastContainer />
-      <div className="browse-products-header">
-        <h1>Browse Products</h1>
+      <div className="header-container">
+        <h1>Property Offers</h1>
       </div>
-      <div className="offers-page">
+
+      <div className="card-wrapper">
         {error && <p className="error-message">{error}</p>}
-        {products.length > 0 ? (
-          <div className="products-grid">
-            {products.map((product) => (
-              <div key={product._id} className="product-card">
-                <Link to={`/product/${product._id}`}>
-                  <img
-                    src={product.imageUrl}
-                    alt={product.name}
-                    className="product-image"
-                  />
-                </Link>
-                <h2 className="product-name">{product.name}</h2>
-
-                <p>Price: ${product.discountedPrice}</p>
-                <p className="product-discount">
-                  Discount: {product.discount}%
-                </p>
-
-                {product.stockQuantity === 0 ? (
-                  <p className="out-of-stock">Out of Stock</p>
-                ) : (
-                  !user?.isAdmin && (
-                    <div className="quantity-container">
-                      <label htmlFor={`quantity-${product._id}`}>
-                        Quantity:
-                      </label>
-                      <input
-                        type="number"
-                        id={`quantity-${product._id}`}
-                        name="quantity"
-                        min="1"
-                        max={product.stockQuantity}
-                        value={quantities[product._id] || 1}
-                        onChange={(e) => handleQuantityChange(product._id, e)}
-                        className="quantity-input"
-                      />
-                    </div>
-                  )
-                )}
-
-                {product.stockQuantity > 0 && !user?.isAdmin && (
-                  <button
-                    onClick={() => {
-                      const quantityInput = document.getElementById(
-                        `quantity-${product._id}`
-                      )
-                      const quantity = parseInt(quantityInput.value, 10)
-
-                      if (!quantity || quantity <= 0) {
-                        alert('Please enter a valid quantity.')
-                        return
-                      }
-
-                      handleAddToCart(product._id, quantity, product.price)
-                    }}
-                    className="cart-buttonp"
-                    aria-label={`Add ${product.name} to cart`}
-                  >
-                    Add to Cart
-                  </button>
-                )}
-                {user?.isAdmin && (
-                  <>
-                    <button
-                      onClick={() => navigate(`/edit-product/${product._id}`)}
-                      className="edit-buttonp"
-                      aria-label={`Edit details for ${product.name}`}
-                    >
-                      Edit
-                    </button>
-
-                    <button
-                      type="button"
-                      className="delete-buttonp"
-                      onClick={() => handleDelete(product._id)}
-                    >
-                      Delete Product
-                    </button>
-                  </>
-                )}
-              </div>
-            ))}
-          </div>
+        {properties.length > 0 ? (
+          properties.map((property) => (
+            <div key={property._id} className="card">
+              <Link to={`/property/${property._id}`}>
+                <img
+                  src={property.imageUrl}
+                  alt={property.title}
+                  className="property-image"
+                />
+                <h2>{property.title}</h2>
+                <p>Name: {property.name}</p>
+                <p>Location: {property.location}</p>
+                <p>Price: ${property.discountedPrice}</p>
+              </Link>
+              <button className="book-buttonp" aria-label={`Book ${property.title}`}>
+                Book Now
+              </button>
+              {user?.isAdmin && (
+                <button
+                  type="button"
+                  className="delete-button"
+                  onClick={() => handleDelete(property._id)}
+                >
+                  Delete Property
+                </button>
+              )}
+            </div>
+          ))
         ) : (
-          <p className="empty-state-message">No products available</p>
+          <p className="empty-state-message">No property offers available</p>
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Offers
+export default Offers;

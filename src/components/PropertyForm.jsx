@@ -52,6 +52,7 @@ const PropertyForm = () => {
     }
 
     try {
+      console.log('Sending property data to server:', propertyData);
       await CreateProperty(propertyData);
       toast.success('Property added successfully!');
       setPropertyData({
@@ -199,29 +200,7 @@ const PropertyForm = () => {
           />
         </div>
 
-        <div className="form-group">
-          <label className="form-label">Discounted Price:</label>
-          <input
-            type="number"
-            name="discountedPrice"
-            value={propertyData.discountedPrice}
-            onChange={handleChange}
-            className="form-input"
-            required
-          />
-        </div>
-
-        <div className="form-group">
-          <label className="form-label">Created At:</label>
-          <input
-            type="text"
-            name="createdAt"
-            value={propertyData.createdAt}
-            onChange={handleChange}
-            className="form-input"
-            disabled
-          />
-        </div>
+        
 
         <button type="submit" className="form-submit-button">
           Add Property
