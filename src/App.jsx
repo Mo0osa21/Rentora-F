@@ -7,6 +7,7 @@ import Home from './pages/Home'
 import PropertiesPage from './pages/PropertiesPage'
 import UserBookings from './pages/UserBookings'
 import PropertyForm from './components/PropertyForm'
+import Offers from './pages/Offers'
 import './App.css'
 import { CheckSession } from './services/Auth'
 import { useEffect } from 'react'
@@ -51,6 +52,7 @@ const App = () => {
             element={<PropertyDetails user={user} />}
           />
           <Route path="/bookings" element={<UserBookings />} />
+          <Route path="offers" element={<Offers />} />
           <Route path="/my-properties" element={<UserPropertiesPage />} />
           <Route
             path="/edit-property/:propertyId"

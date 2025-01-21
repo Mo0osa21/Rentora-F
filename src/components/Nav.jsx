@@ -7,7 +7,7 @@ const Nav = ({ user, handleLogOut }) => {
       <nav>
         <h3>Welcome {user.email}!</h3>
 
-        <Link to="properties">Home</Link>
+        <Link to="/home">Home</Link>
         <Link to="offers">Offers</Link>
 
         
