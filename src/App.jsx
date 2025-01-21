@@ -46,7 +46,7 @@ const App = () => {
           <Route path="/signin" element={<SignIn setUser={setUser} />} />
           <Route path="/register" element={<Register />} />
 
-          <Route path="/myproperties" element={<MyPropertyPage />} />
+          
           <Route path="/properties" element={<PropertiesPage />} />
           <Route path='/offers' element={<Offers />}/>
           <Route path='/propertyform' element={<PropertyForm />}/>
