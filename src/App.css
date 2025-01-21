@@ -891,3 +891,354 @@ a:focus {
   line-height: 1.5;
   color: darkred; /* Updated font color */
 }
+/* General Styling */
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #f9f9f9;
+  margin: 0;
+  padding: 0;
+}
+
+.review-section {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.reviews-header {
+  border-bottom: 2px solid #eee;
+  margin-bottom: 20px;
+}
+
+.reviews-header h2 {
+  margin: 0;
+  padding: 10px 0;
+  font-size: 24px;
+}
+
+.reviews-list {
+  margin-bottom: 20px;
+}
+
+.review {
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.review:last-child {
+  border-bottom: none;
+}
+
+.review-author {
+  font-weight: bold;
+  color: darkred;
+}
+
+.review-comment {
+  margin: 5px 0;
+  font-size: 16px;
+  color: #555;
+}
+
+.no-reviews {
+  color: #999;
+  text-align: center;
+  font-style: italic;
+}
+
+.add-review-section {
+  border-top: 2px solid #eee;
+  padding-top: 20px;
+}
+
+.add-review h3 {
+  margin: 0 0 10px;
+  font-size: 20px;
+  color: #333;
+}
+
+.review-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.review-form-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.review-comment-input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.review-rating-select {
+  width: 150px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.review-submit-button {
+  padding: 10px 20px;
+  background-color: darkred;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.review-submit-button:hover {
+  background-color: #740303;
+}
+
+.eligibility-message {
+  text-align: center;
+  color: #d9534f;
+  font-weight: bold;
+}
+/* General styles for the container */
+.form-container {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  font-family: Arial, sans-serif;
+}
+
+/* Header section */
+.form-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Body section */
+.form-body {
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Add spacing between form groups */
+}
+
+/* Grouping fields */
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Label styling */
+.form-label {
+  font-size: 14px;
+  margin-bottom: 5px;
+  color: #555;
+}
+
+/* Input and textarea styling */
+.form-input,
+.form-textarea {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #333;
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* Checkbox specific alignment */
+.form-group input[type='checkbox'] {
+  width: auto;
+  margin-top: 5px;
+  cursor: pointer;
+}
+
+/* Footer section */
+.form-footer {
+  margin-top: 20px;
+  text-align: center;
+}
+
+/* Submit button */
+.form-submit-button {
+  width: 100%;
+  padding: 10px 15px;
+  background-color: #8d1414;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.form-submit-button:hover {
+  background-color: #7a0711;
+}
+
+/* Error message styling */
+.error-message {
+  color: red;
+  font-size: 14px;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+/* Toast container overrides */
+.Toastify__toast-container {
+  font-size: 14px;
+}
+
+.Toastify__toast--error {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.Toastify__toast--success {
+  background-color: #d4edda;
+  color: #155724;
+}
+/* UserProperties.css */
+.user-properties {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.header h1 {
+  font-size: 2rem;
+  color: #333;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.loading,
+.no-properties {
+  font-size: 1.2rem;
+  color: #777;
+}
+
+.property-list {
+  list-style-type: none;
+  padding: 0;
+  width: 100%;
+  max-width: 1000px;
+}
+
+.property-item {
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+.property-item:hover {
+  background-color: #f9f9f9;
+}
+
+.property-details {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+}
+
+.property-details img {
+  width: 100%;
+  max-width: 200px;
+  height: auto;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+.property-details h3 {
+  font-size: 1.5rem;
+  color: #333;
+  margin: 5px 0;
+}
+
+.property-details p {
+  color: #555;
+  margin: 5px 0;
+}
+
+.property-actions {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.edit-button,
+.delete-button {
+  padding: 8px 15px;
+  margin: 5px 0;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.edit-button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+}
+
+.edit-button:hover {
+  background-color: #45a049;
+}
+
+.delete-button {
+  background-color: #f44336;
+  color: white;
+  border: none;
+}
+
+.delete-button:hover {
+  background-color: #e53935;
+}
+
+.property-item .property-actions {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.toast-container {
+  z-index: 9999;
+}

@@ -20,7 +20,6 @@ const EditPropertyForm = () => {
   const [error, setError] = useState(null)
   const navigate = useNavigate()
 
-
   useEffect(() => {
     const fetchPropertyDetails = async () => {
       try {
@@ -72,109 +71,115 @@ const EditPropertyForm = () => {
     <div className="form-container">
       <ToastContainer />
       <form className="property-form" onSubmit={handleSubmit}>
-        <h2 className="form-title">Edit Property</h2>
-
-        <div className="form-group">
-          <label className="form-label">Name:</label>
-          <input
-            className="form-input"
-            type="text"
-            name="name"
-            value={propertyData.name}
-            onChange={handleChange}
-          />
+        <div className="form-header">
+          <h2 className="form-title">Edit Property</h2>
         </div>
 
-        <div className="form-group">
-          <label className="form-label">Description:</label>
-          <textarea
-            className="form-textarea"
-            name="description"
-            value={propertyData.description}
-            onChange={handleChange}
-          />
+        <div className="form-body">
+          <div className="form-group">
+            <label className="form-label">Name:</label>
+            <input
+              className="form-input"
+              type="text"
+              name="name"
+              value={propertyData.name}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="form-group">
+            <label className="form-label">Description:</label>
+            <textarea
+              className="form-textarea"
+              name="description"
+              value={propertyData.description}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="form-group">
+            <label className="form-label">Price:</label>
+            <input
+              className="form-input"
+              type="number"
+              name="price"
+              value={propertyData.price}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="form-group">
+            <label className="form-label">Image URL:</label>
+            <input
+              className="form-input"
+              type="text"
+              name="imageUrl"
+              value={propertyData.imageUrl}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="form-group">
+            <label className="form-label">Category:</label>
+            <input
+              className="form-input"
+              type="text"
+              name="category"
+              value={propertyData.category}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="form-group">
+            <label className="form-label">Location:</label>
+            <input
+              className="form-input"
+              type="text"
+              name="location"
+              value={propertyData.location}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="form-group">
+            <label className="form-label">Amenities:</label>
+            <input
+              className="form-input"
+              type="text"
+              name="amenities"
+              value={propertyData.amenities}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="form-group">
+            <label className="form-label">Availability:</label>
+            <input
+              className="form-input"
+              type="checkbox"
+              name="availability"
+              checked={propertyData.availability}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="form-group">
+            <label className="form-label">Discount (%):</label>
+            <input
+              className="form-input"
+              type="number"
+              name="discount"
+              value={propertyData.discount}
+              onChange={handleChange}
+            />
+          </div>
         </div>
 
-        <div className="form-group">
-          <label className="form-label">Price:</label>
-          <input
-            className="form-input"
-            type="number"
-            name="price"
-            value={propertyData.price}
-            onChange={handleChange}
-          />
+        <div className="form-footer">
+          <button className="form-submit-button" type="submit">
+            Update Property
+          </button>
         </div>
-
-        <div className="form-group">
-          <label className="form-label">Image URL:</label>
-          <input
-            className="form-input"
-            type="text"
-            name="imageUrl"
-            value={propertyData.imageUrl}
-            onChange={handleChange}
-          />
-        </div>
-
-        <div className="form-group">
-          <label className="form-label">Category:</label>
-          <input
-            className="form-input"
-            type="text"
-            name="category"
-            value={propertyData.category}
-            onChange={handleChange}
-          />
-        </div>
-
-        <div className="form-group">
-          <label className="form-label">Location:</label>
-          <input
-            className="form-input"
-            type="text"
-            name="location"
-            value={propertyData.location}
-            onChange={handleChange}
-          />
-        </div>
-
-        <div className="form-group">
-          <label className="form-label">Amenities:</label>
-          <input
-            className="form-input"
-            type="text"
-            name="amenities"
-            value={propertyData.amenities}
-            onChange={handleChange}
-          />
-        </div>
-
-        <div className="form-group">
-          <label className="form-label">Availability:</label>
-          <input
-            className="form-input"
-            type="checkbox"
-            name="availability"
-            checked={propertyData.availability}
-            onChange={handleChange}
-          />
-        </div>
-
-        <div className="form-group">
-          <label className="form-label">Discount (%):</label>
-          <input
-            className="form-input"
-            type="number"
-            name="discount"
-            value={propertyData.discount}
-            onChange={handleChange}
-          />
-        </div>
-
-        <button className="form-submit-button" type="submit">
-          Update Property
-        </button>
       </form>
     </div>
   )

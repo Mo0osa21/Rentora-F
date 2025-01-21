@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { GetUserProperties, DeleteProperty } from '../services/PropertyServices'
 import { ToastContainer, toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
+import 'react-toastify/dist/ReactToastify.css'
 
 const UserProperties = () => {
   const [properties, setProperties] = useState([])
@@ -25,12 +26,10 @@ const UserProperties = () => {
     }
   }
 
-  // Handle Edit button click
   const handleEdit = (propertyId) => {
     navigate(`/edit-property/${propertyId}`)
   }
 
-  // Handle Delete button click
   const handleDelete = async (propertyId) => {
     if (window.confirm('Are you sure you want to delete this property?')) {
       try {
@@ -47,31 +46,53 @@ const UserProperties = () => {
   }
 
   return (
-    <div>
+    <div className="user-properties">
       <ToastContainer />
-      <h1>My Properties</h1>
-      {loading ? (
-        <p>Loading...</p>
-      ) : properties.length === 0 ? (
-        <p>No properties found</p>
-      ) : (
-        <ul>
-          {properties.map((property) => (
-            <li key={property._id}>
-              <h3>{property.name}</h3>
-              <p>{property.description}</p>
-              <p>Price: ${property.price}</p>
-              <button onClick={() => handleEdit(property._id)}>Edit</button>
-              <button
-                onClick={() => handleDelete(property._id)}
-                style={{ marginLeft: '10px', color: 'red' }}
-              >
-                Delete
-              </button>
-            </li>
-          ))}
-        </ul>
-      )}
+      <div className="header">
+        <h1>My Properties</h1>
+      </div>
+      <div className="content">
+        {loading ? (
+          <div className="loading">
+            <p>Loading...</p>
+          </div>
+        ) : properties.length === 0 ? (
+          <div className="no-properties">
+            <p>No properties found</p>
+          </div>
+        ) : (
+          <ul className="property-list">
+            {properties.map((property) => (
+              <li className="property-item" key={property._id}>
+                <div className="property-details">
+                  <img
+                    src={property.imageUrl}
+                    alt={property.title}
+                    className="property-imageee"
+                  />
+                  <h3>{property.name}</h3>
+                  <p>{property.description}</p>
+                  <p>Price: ${property.price}</p>
+                </div>
+                <div className="property-actions">
+                  <button
+                    className="edit-button"
+                    onClick={() => handleEdit(property._id)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="delete-button"
+                    onClick={() => handleDelete(property._id)}
+                  >
+                    Delete
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   )
 }

@@ -7,14 +7,13 @@ const Nav = ({ user, handleLogOut }) => {
       <nav>
         <h3>Welcome {user.email}!</h3>
 
-        <Link to="/home">Home</Link>
-        <Link to="offers">Offers</Link>
+        <Link to="properties">Home</Link>
+        <Link to="/offers">Offers</Link>
 
-        
+        <Link to="home">Home</Link>
 
         <Link to="/bookings">Book</Link>
         <Link to="/my-properties">My Properties</Link>
-
 
         <Link to="propertyform">Add new property</Link>
         <Link onClick={handleLogOut} to="/">

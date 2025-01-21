@@ -57,40 +57,60 @@ const Reviews = ({ propertyId, user }) => {
 
   return (
     <div className="review-section">
-      <h2>Reviews</h2>
-      {reviews.length > 0 ? (
-        reviews.map((review, index) => (
-          <div key={index} className="review">
-            <p>
-              <strong>{review.userId.name}</strong> rated {review.rating}/5
-            </p>
-            <p>{review.comment}</p>
-          </div>
-        ))
-      ) : (
-        <p>No reviews yet.</p>
-      )}
+      <div className="reviews-header">
+        <h2>Reviews</h2>
+      </div>
+      <div className="reviews-list">
+        {reviews.length > 0 ? (
+          reviews.map((review, index) => (
+            <div key={index} className="review">
+              <p className="review-author">
+                <strong>{review.userId.name}</strong> rated {review.rating}/5
+              </p>
+              <p className="review-comment">{review.comment}</p>
+            </div>
+          ))
+        ) : (
+          <p className="no-reviews">No reviews yet.</p>
+        )}
+      </div>
 
-      {isEligible ? (
-        <div className="add-review">
-          <h3>Leave a Review</h3>
-          <textarea
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-            placeholder="Write your review..."
-          />
-          <select value={rating} onChange={(e) => setRating(e.target.value)}>
-            {[1, 2, 3, 4, 5].map((num) => (
-              <option key={num} value={num}>
-                {num} Star{num > 1 && 's'}
-              </option>
-            ))}
-          </select>
-          <button onClick={handleReviewSubmit}>Submit Review</button>
-        </div>
-      ) : (
-        <p>You need to book and stay at this property to leave a review.</p>
-      )}
+      <div className="add-review-section">
+        {isEligible ? (
+          <div className="add-review">
+            <h3>Leave a Review</h3>
+            <div className="review-form">
+              <textarea
+                className="review-comment-input"
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+                placeholder="Write your review..."
+              />
+              <select
+                className="review-rating-select"
+                value={rating}
+                onChange={(e) => setRating(e.target.value)}
+              >
+                {[1, 2, 3, 4, 5].map((num) => (
+                  <option key={num} value={num}>
+                    {num} Star{num > 1 && 's'}
+                  </option>
+                ))}
+              </select>
+              <button
+                className="review-submit-button"
+                onClick={handleReviewSubmit}
+              >
+                Submit Review
+              </button>
+            </div>
+          </div>
+        ) : (
+          <p className="eligibility-message">
+            You need to book and stay at this property to leave a review.
+          </p>
+        )}
+      </div>
     </div>
   )
 }

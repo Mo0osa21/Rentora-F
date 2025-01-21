@@ -1,46 +1,46 @@
-import { useEffect, useState } from 'react';
-import { GetProperties, DeleteProperty } from '../services/PropertyServices';
-import { useNavigate, Link } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { useEffect, useState } from 'react'
+import { GetProperties, DeleteProperty } from '../services/PropertyServices'
+import { useNavigate, Link } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const Offers = ({ user }) => {
-  const [properties, setProperties] = useState([]);
-  const [error, setError] = useState(null);
-  const navigate = useNavigate();
+  const [properties, setProperties] = useState([])
+  const [error, setError] = useState(null)
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        const allProperties = await GetProperties();
-        if(allProperties){
-            const discountedProperties = allProperties.filter(
-                (property) => property.discount > 0
-            );
-            setProperties(discountedProperties);
+        const allProperties = await GetProperties()
+        if (allProperties) {
+          const discountedProperties = allProperties.filter(
+            (property) => property.discount > 0
+          )
+          setProperties(discountedProperties)
         } else {
-            setProperties([]);
+          setProperties([])
         }
       } catch (err) {
-        console.error('Error fetching properties:', err);
-        setError('Failed to fetch properties.');
+        console.error('Error fetching properties:', err)
+        setError('Failed to fetch properties.')
       }
-    };
-    fetchProperties();
-  }, []);
+    }
+    fetchProperties()
+  }, [])
 
   const handleDelete = async (propertyId) => {
     try {
-      await DeleteProperty(propertyId);
-      toast.success('Property deleted successfully!');
+      await DeleteProperty(propertyId)
+      toast.success('Property deleted successfully!')
       setProperties((prevProperties) =>
         prevProperties.filter((property) => property._id !== propertyId)
-      );
+      )
     } catch (err) {
-      console.error('Error details:', err.response?.data || err.message);
-      toast.error('Failed to delete property. Please try again.');
+      console.error('Error details:', err.response?.data || err.message)
+      toast.error('Failed to delete property. Please try again.')
     }
-  };
+  }
 
   return (
     <div className="container">
@@ -58,14 +58,17 @@ const Offers = ({ user }) => {
                 <img
                   src={property.imageUrl}
                   alt={property.title}
-                  className="property-image"
+                  className="property-imagee"
                 />
                 <h2>{property.title}</h2>
                 <p>Name: {property.name}</p>
                 <p>Location: {property.location}</p>
                 <p>Price: ${property.discountedPrice}</p>
               </Link>
-              <button className="book-buttonp" aria-label={`Book ${property.title}`}>
+              <button
+                className="book-buttonp"
+                aria-label={`Book ${property.title}`}
+              >
                 Book Now
               </button>
               {user?.isAdmin && (
@@ -84,7 +87,7 @@ const Offers = ({ user }) => {
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Offers;
+export default Offers
