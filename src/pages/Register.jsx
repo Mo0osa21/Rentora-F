@@ -35,7 +35,7 @@ const Register = () => {
         confirmPassword: '',
         picture: '',
       });
-      navigate('/signin');
+      navigate('/profile'); // Navigate to profile page after successful registration
     } catch (error) {
       console.error("Registration error:", error);
       // Handle error, e.g., display an error message to the user
@@ -91,12 +91,12 @@ const Register = () => {
             />
           </div>
           <div className="input-wrapper">
-            <label htmlFor="picture">Profile Picture URL</label> {/* Changed label */}
+            <label htmlFor="picture">Profile Picture URL</label>
             <input
-              onChange={handleChange} // Use handleChange for URL input
-              type="url" // Use type="url" for URL validation
+              onChange={handleChange}
+              type="url"
               name="picture"
-              placeholder="Enter image URL" // Added placeholder
+              placeholder="Enter image URL"
               value={formValues.picture}
             />
           </div>
@@ -105,7 +105,7 @@ const Register = () => {
               !formValues.email ||
               !formValues.password ||
               formValues.password !== formValues.confirmPassword ||
-              !formValues.picture // Require picture URL
+              !formValues.picture
             }
             type="submit"
           >
