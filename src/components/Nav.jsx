@@ -5,6 +5,11 @@ const Nav = ({ user, handleLogOut }) => {
   if (user) {
     userOptions = (
       <nav>
+        
+        <Link to="/PropertiesPage">Home</Link>
+        <Link>Book</Link>
+        <Link>My Property</Link>
+        <Link>Offers</Link>
         <h3>Welcome {user.email}!</h3>
 
         <Link to="properties">Home</Link>
