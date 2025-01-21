@@ -15,7 +15,6 @@ import { useEffect } from 'react'
 import PropertyDetails from './pages/PropertyDetails'
 import UserPropertiesPage from './pages/UserPropertiesPage'
 import EditPropertyForm from './components/EditPropertyForm'
-import Offers from './pages/Offers'
 
 const App = () => {
   const [user, setUser] = useState(null)
