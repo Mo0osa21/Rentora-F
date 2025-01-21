@@ -1,196 +1,95 @@
-import React, { useState, useEffect } from 'react'
-import { ToastContainer, toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
-import { FaEdit, FaTrash, FaSave, FaTimes } from 'react-icons/fa'
+import { useEffect, useState } from 'react'
 import {
-  getReviews,
-  checkReviewEligibility,
-  addReview,
-  editReview,
-  deleteReview
+  GetReviewsForProperty,
+  AddReview,
+  CheckReviewEligibility
 } from '../services/ReviewServices'
+import { toast } from 'react-toastify'
 
-const Reviews = ({ productId, userId }) => {
+const Reviews = ({ propertyId, user }) => {
   const [reviews, setReviews] = useState([])
-  const [isEligible, setIsEligible] = useState(false)
   const [comment, setComment] = useState('')
-  const [loading, setLoading] = useState(true)
-  const [editingReviewId, setEditingReviewId] = useState(null)
-  const [updatedComment, setUpdatedComment] = useState('')
+  const [rating, setRating] = useState(1)
+  const [isEligible, setIsEligible] = useState(false)
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchReviews = async () => {
       try {
-        const [reviewsData, eligibility] = await Promise.all([
-          getReviews(productId),
-          checkReviewEligibility(userId, productId)
-        ])
-        setReviews(reviewsData)
-        setIsEligible(eligibility)
-      } catch (error) {
-        toast.error('Failed to load data.')
-      } finally {
-        setLoading(false)
+        const response = await GetReviewsForProperty(propertyId)
+        setReviews(response)
+      } catch (err) {
+        toast.error('Failed to load reviews')
       }
     }
 
-    fetchData()
-  }, [productId, userId, reviews])
+    const checkEligibility = async () => {
+      if (!user) return
+      try {
+        const response = await CheckReviewEligibility(user.id, propertyId)
+        console.log('Eligibility response:', response)
+        setIsEligible(response) // Ensure correct key from API response
+      } catch (err) {
+        console.error('Error checking eligibility:', err)
+        setIsEligible(false) // Handle error scenario
+      }
+    }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
+    fetchReviews()
+    checkEligibility()
+  }, [propertyId, user])
 
+  const handleReviewSubmit = async () => {
     if (!comment.trim()) {
-      toast.error('Comment cannot be empty.')
+      toast.error('Comment cannot be empty')
       return
     }
 
     try {
-      const response = await addReview({ productId, userId, comment })
-      console.log('New review added:', response)
-
-      const newReview = response.review
-
-      if (!newReview || !newReview._id || !newReview.userId) {
-        console.log('Error: Invalid review data', newReview)
-        return
-      }
-
-      setReviews((prevReviews) => [...prevReviews, newReview])
-
+      await AddReview({ propertyId, userId: user.id, comment, rating })
+      toast.success('Review submitted successfully')
       setComment('')
-      toast.success('Comment added successfully.')
-    } catch (error) {
-      toast.error('Failed to add comment.')
-    }
-  }
-
-  const handleEdit = (review) => {
-    setEditingReviewId(review._id)
-    setUpdatedComment(review.comment)
-  }
-
-  const handleSave = async (reviewId) => {
-    if (!updatedComment.trim()) {
-      toast.error('Comment cannot be empty.')
-      return
-    }
-
-    try {
-      await editReview(reviewId, updatedComment, userId)
-
-      setReviews((prevReviews) =>
-        prevReviews.map((review) =>
-          review._id === reviewId
-            ? { ...review, comment: updatedComment }
-            : review
-        )
-      )
-
-      setEditingReviewId(null)
-      toast.success('Review updated successfully.')
-    } catch (error) {
-      toast.error('Failed to update review.')
-    }
-  }
-
-  const handleDelete = async (reviewId) => {
-    try {
-      await deleteReview(reviewId, userId)
-      setReviews((prevReviews) =>
-        prevReviews.filter((review) => review._id !== reviewId)
-      )
-      toast.success('Review deleted successfully.')
-    } catch (error) {
-      toast.error('Failed to delete review.')
+      setRating(1)
+      setReviews([...reviews, { userId: { name: user.name }, comment, rating }])
+    } catch (err) {
+      toast.error('Failed to add review')
     }
   }
 
   return (
-    <div className="reviews-section">
-      <ToastContainer />
+    <div className="review-section">
       <h2>Reviews</h2>
-      {loading ? (
-        <p>Loading reviews...</p>
-      ) : reviews.length > 0 ? (
-        <ul className="reviews-list">
-          {reviews.map((review) => (
-            <li key={review._id} className="review-card">
-              <div className="review-content">
-                {editingReviewId === review._id ? (
-                  <textarea
-                    value={updatedComment}
-                    onChange={(e) => setUpdatedComment(e.target.value)}
-                    aria-label="Edit review"
-                  />
-                ) : (
-                  <p>
-                    <strong>{review.userId.name}</strong>: {review.comment}
-                  </p>
-                )}
-              </div>
-              {review.userId._id === userId && (
-                <div className="review-actions">
-                  {editingReviewId === review._id ? (
-                    <>
-                      <button
-                        className="save-button"
-                        onClick={() => handleSave(review._id)}
-                        aria-label="Save edit"
-                      >
-                        <FaSave />
-                      </button>
-                      <button
-                        className="cancel-button"
-                        onClick={() => setEditingReviewId(null)}
-                        aria-label="Cancel edit"
-                      >
-                        <FaTimes />
-                      </button>
-                    </>
-                  ) : (
-                    <>
-                      <button
-                        className="edit-button"
-                        onClick={() => handleEdit(review)}
-                        aria-label="Edit review"
-                      >
-                        <FaEdit />
-                      </button>
-                      <button
-                        className="delete-button"
-                        onClick={() => handleDelete(review._id)}
-                        aria-label="Delete review"
-                      >
-                        <FaTrash />
-                      </button>
-                    </>
-                  )}
-                </div>
-              )}
-            </li>
-          ))}
-        </ul>
+      {reviews.length > 0 ? (
+        reviews.map((review, index) => (
+          <div key={index} className="review">
+            <p>
+              <strong>{review.userId.name}</strong> rated {review.rating}/5
+            </p>
+            <p>{review.comment}</p>
+          </div>
+        ))
       ) : (
         <p>No reviews yet.</p>
       )}
-      {isEligible && (
-        <form className="review-form" onSubmit={handleSubmit}>
+
+      {isEligible ? (
+        <div className="add-review">
+          <h3>Leave a Review</h3>
           <textarea
             value={comment}
             onChange={(e) => setComment(e.target.value)}
-            placeholder="Write your comment here..."
-            required
-            aria-label="Add review"
+            placeholder="Write your review..."
           />
-          <button
-            type="submit"
-            className="submit-button"
-            aria-label="Submit review"
-          >
-            Submit
-          </button>
-        </form>
+          <select value={rating} onChange={(e) => setRating(e.target.value)}>
+            {[1, 2, 3, 4, 5].map((num) => (
+              <option key={num} value={num}>
+                {num} Star{num > 1 && 's'}
+              </option>
+            ))}
+          </select>
+          <button onClick={handleReviewSubmit}>Submit Review</button>
+        </div>
+      ) : (
+        <p>You need to book and stay at this property to leave a review.</p>
       )}
     </div>
   )

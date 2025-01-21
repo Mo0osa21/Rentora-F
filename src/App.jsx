@@ -7,7 +7,6 @@ import Home from './pages/Home'
 import PropertiesPage from './pages/PropertiesPage'
 import UserBookings from './pages/UserBookings'
 import PropertyForm from './components/PropertyForm'
-import Offers from './pages/Offers'
 import './App.css'
 import { CheckSession } from './services/Auth'
 import { useEffect } from 'react'
@@ -39,18 +38,14 @@ const App = () => {
 
   return (
     <div className="App">
-      <Nav user={user} handleLogOut={handleLogOut} />
+      {user && <Nav user={user} handleLogOut={handleLogOut} />}
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/signin" element={<SignIn setUser={setUser} />} />
           <Route path="/register" element={<Register />} />
-
-          
-          <Route path="/properties" element={<PropertiesPage />} />
-          <Route path='/offers' element={<Offers />}/>
-          <Route path='/propertyform' element={<PropertyForm />}/>
-
+          <Route path="/home" element={<PropertiesPage />} />
+          <Route path="/propertyform" element={<PropertyForm />} />
           <Route
             path="/property/:propertyId"
             element={<PropertyDetails user={user} />}

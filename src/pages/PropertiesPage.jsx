@@ -92,17 +92,19 @@ const PropertiesPage = ({ user }) => {
         {properties && properties.length > 0 ? (
           properties.map((property) => (
             <div key={property._id} className="card">
-              <Link to={`/property/${property._id}`}>
+              <Link
+                to={`/property/${property._id}`}
+                className="property-card-link"
+              >
                 <img
                   src={property.imageUrl}
                   alt={property.title}
-                  className="property-image"
+                  className="property-imagee"
                 />
                 <h2>{property.title}</h2>
                 <p>Name: {property.name}</p>
                 <p>Location: {property.location}</p>
                 <p>Price: ${property.price}</p>
-
                 <button
                   className="book-buttonp"
                   aria-label={`Book ${property.title}`}

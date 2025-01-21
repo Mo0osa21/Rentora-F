@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
-import { CreateProperty } from '../services/PropertyServices'; // Change the service to PropertyServices
-import { GetCategories } from '../services/CategoryServices'; // You can keep the categories if applicable
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { useState, useEffect } from 'react'
+import { CreateProperty } from '../services/PropertyServices' // Change the service to PropertyServices
+import { GetCategories } from '../services/CategoryServices' // You can keep the categories if applicable
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const PropertyForm = () => {
   const [propertyData, setPropertyData] = useState({
@@ -16,45 +16,45 @@ const PropertyForm = () => {
     availability: true,
     discount: '',
     discountedPrice: '',
-    createdAt: '',
-  });
+    createdAt: ''
+  })
 
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState([])
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const categoriesFromDB = await GetCategories();
-        setCategories(categoriesFromDB);
+        const categoriesFromDB = await GetCategories()
+        setCategories(categoriesFromDB)
       } catch (error) {
-        console.error('Error fetching categories:', error);
-        toast.error('Failed to load categories. Please try again.');
+        console.error('Error fetching categories:', error)
+        toast.error('Failed to load categories. Please try again.')
       }
-    };
+    }
 
-    fetchCategories();
-  }, []);
+    fetchCategories()
+  }, [])
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value, type, checked } = e.target
     setPropertyData({
       ...propertyData,
-      [name]: type === 'checkbox' ? checked : value,
-    });
-  };
+      [name]: type === 'checkbox' ? checked : value
+    })
+  }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
     if (propertyData.discount > 100) {
-      toast.error('Discount cannot exceed 100%. Please adjust the value.');
-      return;
+      toast.error('Discount cannot exceed 100%. Please adjust the value.')
+      return
     }
 
     try {
-      console.log('Sending property data to server:', propertyData);
-      await CreateProperty(propertyData);
-      toast.success('Property added successfully!');
+      console.log('Sending property data to server:', propertyData)
+      await CreateProperty(propertyData)
+      toast.success('Property added successfully!')
       setPropertyData({
         name: '',
         description: '',
@@ -66,22 +66,26 @@ const PropertyForm = () => {
         availability: true,
         discount: '',
         discountedPrice: '',
-        createdAt: '',
-      });
+        createdAt: ''
+      })
     } catch (error) {
-      console.error('Error adding property:', error);
-      if (error.response && error.response.data && error.response.data.message) {
-        toast.error(`Error: ${error.response.data.message}`);
+      console.error('Error adding property:', error)
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        toast.error(`Error: ${error.response.data.message}`)
       } else if (error.message) {
-        toast.error(`Error: ${error.message}`);
+        toast.error(`Error: ${error.message}`)
       } else {
-        toast.error('Failed to add property. Please try again.');
+        toast.error('Failed to add property. Please try again.')
       }
     }
-  };
+  }
 
   return (
-    <div>
+    <div className="property-form-container">
       <ToastContainer />
       <form className="property-form" onSubmit={handleSubmit}>
         <h2 className="form-title">Add New Property</h2>
@@ -179,13 +183,16 @@ const PropertyForm = () => {
 
         <div className="form-group">
           <label className="form-label">Availability:</label>
-          <input
-            type="checkbox"
-            name="availability"
-            checked={propertyData.availability}
-            onChange={handleChange}
-            className="form-input"
-          />
+          <div className="form-checkbox-container">
+            <input
+              type="checkbox"
+              name="availability"
+              checked={propertyData.availability}
+              onChange={handleChange}
+              className="form-checkbox"
+            />
+            <span className="checkbox-label">Available</span>
+          </div>
         </div>
 
         <div className="form-group">
@@ -200,14 +207,14 @@ const PropertyForm = () => {
           />
         </div>
 
-        
-
-        <button type="submit" className="form-submit-button">
-          Add Property
-        </button>
+        <div className="form-button-container">
+          <button type="submit" className="form-submit-button">
+            Add Property
+          </button>
+        </div>
       </form>
     </div>
-  );
-};
+  )
+}
 
-export default PropertyForm;
+export default PropertyForm
