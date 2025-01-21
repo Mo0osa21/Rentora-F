@@ -2,10 +2,13 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { GetProperty } from '../services/PropertyServices'
 import { PlaceBooking, GetPropertyBookings } from '../services/BookServices'
+import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { MdArrowBackIosNew } from 'react-icons/md'
-import Reviews from '../components/Reviews' // Import the Reviews component
+import Reviews from '../components/Reviews'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
 
 const PropertyDetails = ({ user }) => {
   const { propertyId } = useParams()
@@ -13,8 +16,8 @@ const PropertyDetails = ({ user }) => {
   const [property, setProperty] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
-  const [startDate, setStartDate] = useState('')
-  const [endDate, setEndDate] = useState('')
+  const [startDate, setStartDate] = useState(null)
+  const [endDate, setEndDate] = useState(null)
   const [bookedDates, setBookedDates] = useState([])
 
   useEffect(() => {
@@ -35,7 +38,11 @@ const PropertyDetails = ({ user }) => {
           return dateArray
         })
 
-        setBookedDates(dates)
+        setBookedDates(dates.map((date) => new Date(date)))
+
+        await axios.get(
+          `http://your-backend-url/api/update-book-status/${propertyId}`
+        )
       } catch (err) {
         console.error('Error fetching data:', err)
         toast.error('Failed to load data.')
@@ -47,15 +54,13 @@ const PropertyDetails = ({ user }) => {
     fetchData()
   }, [propertyId])
 
-  const isDateBooked = (date) => bookedDates.includes(date)
-
   const handlePlaceOrder = async () => {
     if (!startDate || !endDate) {
       toast.error('Please select both start and end dates.')
       return
     }
 
-    if (new Date(endDate) < new Date(startDate)) {
+    if (endDate < startDate) {
       toast.error('End date cannot be before start date.')
       return
     }
@@ -63,8 +68,8 @@ const PropertyDetails = ({ user }) => {
       const orderData = {
         property: propertyId,
         user: user.id,
-        startDate,
-        endDate,
+        startDate: startDate.toISOString(),
+        endDate: endDate.toISOString(),
         price: property.discountedPrice
       }
       await PlaceBooking(orderData)
@@ -78,19 +83,6 @@ const PropertyDetails = ({ user }) => {
 
   const handleBackButton = () => {
     navigate('/home')
-  }
-
-  const handleEndDateChange = (e) => {
-    const selectedEndDate = e.target.value
-    if (startDate && selectedEndDate < startDate) {
-      toast.error('End date cannot be before start date.')
-      return
-    }
-    if (isDateBooked(selectedEndDate)) {
-      toast.error('Selected end date is already booked.')
-      return
-    }
-    setEndDate(selectedEndDate)
   }
 
   if (loading) return <p>Loading...</p>
@@ -134,24 +126,21 @@ const PropertyDetails = ({ user }) => {
         <div className="booking-form">
           <div className="date-container">
             <label>Start Date:</label>
-            <input
-              type="date"
-              value={startDate}
-              onChange={(e) => {
-                if (isDateBooked(e.target.value)) {
-                  toast.error('Selected start date is already booked.')
-                  return
-                }
-                setStartDate(e.target.value)
-                setEndDate('')
-              }}
+            <DatePicker
+              selected={startDate}
+              onChange={(date) => setStartDate(date)}
+              excludeDates={bookedDates}
+              minDate={new Date()}
+              placeholderText="Select a start date"
             />
+
             <label>End Date:</label>
-            <input
-              type="date"
-              value={endDate}
-              onChange={handleEndDateChange}
-              min={startDate}
+            <DatePicker
+              selected={endDate}
+              onChange={(date) => setEndDate(date)}
+              excludeDates={bookedDates}
+              minDate={startDate || new Date()}
+              placeholderText="Select an end date"
             />
           </div>
 
