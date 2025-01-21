@@ -20,7 +20,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: var(--primary-bg);
+  background-color: #8e1616;
 }
 
 .logo,
@@ -1241,4 +1241,37 @@ body {
 
 .toast-container {
   z-index: 9999;
+}
+
+.nav {
+  display: flex;
+
+  gap: 0.5rem;
+}
+
+.nav-welcome {
+  margin-right: auto; /* Push the heading to the far left */
+  font-size: 1.2rem;
+  color: #fff;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.nav-link {
+  color: #fff;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-link:hover {
+  color: #333;
+}
+
+.nav-link:active {
+  transform: scale(0.98);
 }

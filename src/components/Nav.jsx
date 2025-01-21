@@ -4,24 +4,27 @@ const Nav = ({ user, handleLogOut }) => {
   let userOptions
   if (user) {
     userOptions = (
-      <nav>
-        
-        <Link to="/PropertiesPage">Home</Link>
-        <Link>Book</Link>
-        <Link>My Property</Link>
-        <Link>Offers</Link>
+      <nav className="nav">
         <h3>Welcome {user.email}!</h3>
 
-        <Link to="properties">Home</Link>
-        <Link to="/offers">Offers</Link>
+        <Link to="/home" className="nav-link">
+          Home
+        </Link>
+        <Link to="/offers" className="nav-link">
+          Offers
+        </Link>
 
-        <Link to="home">Home</Link>
+        <Link to="/bookings" className="nav-link">
+          Book
+        </Link>
+        <Link to="/my-properties" className="nav-link">
+          My Properties
+        </Link>
 
-        <Link to="/bookings">Book</Link>
-        <Link to="/my-properties">My Properties</Link>
-
-        <Link to="propertyform">Add new property</Link>
-        <Link onClick={handleLogOut} to="/">
+        <Link to="propertyform" className="nav-link">
+          Add new property
+        </Link>
+        <Link onClick={handleLogOut} to="/" className="nav-link">
           Sign Out
         </Link>
       </nav>
@@ -30,9 +33,15 @@ const Nav = ({ user, handleLogOut }) => {
 
   const publicOptions = (
     <nav>
-      <Link to="/">Home</Link>
-      <Link to="/register">Register</Link>
-      <Link to="/signin">Sign In</Link>
+      <Link to="/home" className="nav-link">
+        Home
+      </Link>
+      <Link to="/register" className="nav-link">
+        Register
+      </Link>
+      <Link to="/signin" className="nav-link">
+        Sign In
+      </Link>
     </nav>
   )
 
