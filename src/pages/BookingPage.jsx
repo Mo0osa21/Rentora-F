@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import {
-  getAllBookings,
-  updateBookingStatus
+  GetAllBookings,
+  UpdateBookingStatus
 } from '../services/BookingServices' // Assuming BookingServices
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -14,8 +14,45 @@ const BookingPage = () => {
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const bookingsData = await getAllBookings()
-        setBookings(bookingsData)
+        const bookingsData = await GetAllBookings()
+
+        // Auto-update status based on current date
+        const updatedBookings = await Promise.all(
+          bookingsData.map(async (booking) => {
+            const currentDate = new Date()
+            const startDate = new Date(booking.startDate)
+            const endDate = new Date(booking.endDate)
+
+            let newStatus = booking.status
+
+            if (currentDate < startDate) {
+              newStatus = 'Pending'
+            } else if (currentDate >= startDate && currentDate <= endDate) {
+              newStatus = 'Active'
+            } else if (currentDate > endDate) {
+              newStatus = 'Expired'
+            }
+
+            // If status needs to be updated
+            if (booking.status !== newStatus) {
+              try {
+                await UpdateBookingStatus(booking._id, newStatus)
+                toast.success(
+                  `Booking ${booking._id} status updated to ${newStatus}`
+                )
+              } catch (err) {
+                console.error(
+                  `Failed to update booking ${booking._id}:`,
+                  err.message
+                )
+              }
+            }
+
+            return { ...booking, status: newStatus }
+          })
+        )
+
+        setBookings(updatedBookings)
       } catch (error) {
         console.error('Error fetching bookings:', error.message)
         toast.error('Failed to fetch bookings. Please try again.')
@@ -29,8 +66,7 @@ const BookingPage = () => {
 
   const handleStatusChange = async (bookingId, newStatus) => {
     try {
-      const updatedBooking = await updateBookingStatus(bookingId, newStatus)
-      console.log('Updated Booking:', updatedBooking)
+      await UpdateBookingStatus(bookingId, newStatus)
       setBookings((prevBookings) =>
         prevBookings.map((booking) =>
           booking._id === bookingId
@@ -38,6 +74,7 @@ const BookingPage = () => {
             : booking
         )
       )
+      toast.success('Booking status updated successfully!')
     } catch (error) {
       console.error(
         'Error updating booking status:',
@@ -85,9 +122,8 @@ const BookingPage = () => {
                   }
                 >
                   <option value="Pending">Pending</option>
-                  <option value="Confirmed">Confirmed</option>
-                  <option value="Completed">Completed</option>
-                  <option value="Cancelled">Cancelled</option>
+                  <option value="Active">Active</option>
+                  <option value="Expired">Expired</option>
                 </select>
               </td>
             </tr>

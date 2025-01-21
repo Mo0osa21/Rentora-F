@@ -15,6 +15,7 @@ import { useEffect } from 'react'
 import PropertyDetails from './pages/PropertyDetails'
 import UserPropertiesPage from './pages/UserPropertiesPage'
 import EditPropertyForm from './components/EditPropertyForm'
+import Offers from './pages/Offers'
 
 const App = () => {
   const [user, setUser] = useState(null)
@@ -53,7 +54,7 @@ const App = () => {
             element={<PropertyDetails user={user} />}
           />
           <Route path="/bookings" element={<UserBookings />} />
-          <Route path="offers" element={<Offers />} />
+          <Route path="/offers" element={<Offers />} />
           <Route path="/my-properties" element={<UserPropertiesPage />} />
           <Route
             path="/edit-property/:propertyId"
