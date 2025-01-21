@@ -15,7 +15,7 @@ const SignIn = ({ setUser }) => {
     const payload = await SignInUser(formValues)
     setFormValues({ email: '', password: '' })
     setUser(payload)
-    navigate('/home')
+    navigate('/properties')
   }
 
   return (
@@ -49,6 +49,7 @@ const SignIn = ({ setUser }) => {
               <button disabled={!formValues.email || !formValues.password}>
                 Sign In
               </button>
+             <a href='/register'><p>Sign up</p></a> 
             </form>
           </div>
         </div>

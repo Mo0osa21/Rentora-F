@@ -1,7 +1,16 @@
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react'; // Import useState and useEffect
 
 const Nav = ({ user, handleLogOut }) => {
-  let userOptions
+  const [pictureUrl, setPictureUrl] = useState(''); // State to store user's picture URL
+
+  useEffect(() => {
+    if (user) {
+      setPictureUrl(user.profile && user.profile.picture); // Update pictureUrl on user change
+    }
+  }, [user]); // Dependency array: update on user change
+
+  let userOptions;
   if (user) {
     userOptions = (
       <nav className="nav">
@@ -28,7 +37,7 @@ const Nav = ({ user, handleLogOut }) => {
           Sign Out
         </Link>
       </nav>
-    )
+    );
   }
 
   const publicOptions = (
@@ -43,22 +52,31 @@ const Nav = ({ user, handleLogOut }) => {
         Sign In
       </Link>
     </nav>
-  )
+  );
 
   return (
     <header>
-      <Link to="/">
+      <Link to="/profile">
         <div className="logo-wrapper" alt="logo">
-          <img
-            className="logo"
-            src="https://avatars.dicebear.com/api/gridy/app.svg"
-            alt="welcome banner"
-          />
+          {pictureUrl ? ( // Conditionally render the user's picture
+            <img
+              className="logo"
+              src={pictureUrl}
+              alt="User Profile"
+            />
+          ) : (
+            <img
+              className="logo"
+              src="https://avatars.dicebear.com/api/gridy/app.svg"
+              alt="Default Logo"
+             
+            />
+          )}
         </div>
       </Link>
       {user ? userOptions : publicOptions}
     </header>
-  )
-}
+  );
+};
 
-export default Nav
+export default Nav;
