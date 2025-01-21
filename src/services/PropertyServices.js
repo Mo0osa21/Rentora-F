@@ -63,6 +63,15 @@ export const DeleteProperty = async (propertyId) => {
   }
 }
 
+export const AutoUpdateBookStatus = async (bookId) => {
+  try {
+    const response = await Client.get(`books/${bookId}`)
+    return response.data
+  } catch (error) {
+    console.error('Error auto-updating booking status:', error)
+    throw error
+  }
+}
 
 export const GetUserProperties = async () => {
   const token = localStorage.getItem('token')
