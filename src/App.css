@@ -15,19 +15,6 @@ body {
   background-color: var(--secondary-bg);
 }
 
-button {
-  border: 0;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  padding: 0.8em 1.2em;
-  font-size: 1.1rem;
-}
-
-button,
-input {
-  border-radius: 8px;
-}
-
 header {
   max-height: 4em;
   display: flex;
@@ -192,4 +179,1066 @@ form button:disabled {
   justify-content: center;
   align-items: center;
   height: 80vh;
+}
+/* Global Styles */
+body {
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  background-color: #eeeeee;
+  color: #8e1616;
+}
+
+.container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+h1 {
+  font-size: 2.8em;
+  font-weight: bold;
+  color: #8e1616;
+}
+
+/* Search Bar Styles */
+.search-bar-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.search-bar {
+  width: 100%;
+  max-width: 500px;
+  padding: 12px;
+  font-size: 1.1em;
+  border: 2px solid #8e1616;
+  border-radius: 10px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.search-bar:focus {
+  border-color: #a32020;
+}
+
+/* Category Dropdown */
+.category-dropdown {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+/* Card Wrapper */
+.card-wrapper {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+}
+
+.card {
+  background-color: #fff;
+  border: 1px solid #8e1616;
+  border-radius: 12px;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.property-imagee {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-bottom: 2px solid #8e1616;
+}
+
+.card h2 {
+  font-size: 1.8em;
+  margin: 15px 0 10px;
+  color: #8e1616;
+}
+
+.card p {
+  margin: 5px 0;
+  font-size: 1.1em;
+}
+
+.book-buttonp {
+  background-color: #8e1616;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin: 15px 0;
+  font-size: 1.1em;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.book-buttonp:hover {
+  background-color: #a32020;
+  transform: scale(1.05);
+}
+
+/* Error Message */
+.error-message {
+  color: #ff0000;
+  text-align: center;
+  font-size: 1.2em;
+}
+/* Category Filter Section */
+.category-filter-container {
+  margin: 10px 0; /* Minimal vertical margin */
+  padding: 10px; /* Minimal padding inside the box */
+  border-radius: 6px; /* Smaller corner rounding */
+  background-color: #f1f1f1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for the smaller box */
+}
+
+/* Styling for the Category Dropdown */
+.category-dropdown {
+  width: 100%;
+  max-width: 350px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.category-dropdown select {
+  padding: 12px;
+  font-size: 18px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  width: 100%;
+  background-color: #fff;
+  color: #7e1414;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+/* Dropdown hover and focus effects */
+.category-dropdown select:hover {
+  border-color: #b11c1c;
+}
+
+.category-dropdown select:focus {
+  border-color: #9e1919;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Label Styling for the Dropdown (Optional) */
+.category-dropdown label {
+  font-size: 18px;
+  margin-bottom: 12px;
+  color: #8e1616;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+/* Category Filter Section Header (Optional) */
+.category-filter-header {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #8e1616;
+  text-align: center;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding-bottom: 12px;
+  border-bottom: 3px solid #007bff; /* Blue underline for emphasis */
+}
+.user-bookings-page {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.bookings-header h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.bookings-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.no-bookings {
+  text-align: center;
+  font-size: 18px;
+  color: #555;
+}
+
+.bookings-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.booking-card {
+  width: 300px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.booking-image-wrapper {
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+}
+
+.booking-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.booking-info-wrapper {
+  padding: 15px;
+}
+
+.property-name {
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.property-location,
+.booking-dates,
+.booking-price {
+  font-size: 14px;
+  margin: 5px 0;
+}
+
+.booking-status {
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.booking-status.confirmed {
+  color: green;
+}
+
+.booking-status.cancelled {
+  color: red;
+}
+
+.booking-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.cancel-button {
+  padding: 10px 15px;
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.cancel-button:hover {
+  background-color: #e60000;
+}
+.signin {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f2f2f2;
+  padding: 0 20px; /* Optional, for some spacing */
+}
+
+.signin-content {
+  display: flex;
+  justify-content: space-between; /* Space between form and image */
+  align-items: center;
+  width: 100%; /* Full width */
+  max-width: 1500px; /* Max size of the content */
+  height: 80%; /* Adjust this to control the height */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  padding: 20px;
+}
+
+.form-container {
+  flex: 1;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; /* Center the content */
+  max-width: 600px; /* Set a max width for the form */
+}
+
+h1 {
+  font-size: 36px; /* Increase font size */
+  margin-bottom: 20px;
+}
+
+.card-overlay {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 500px; /* Control the width of the card */
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+.image-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%; /* Make image container take full height */
+}
+
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensure image covers the container while maintaining aspect ratio */
+  border-radius: 10px;
+}
+
+/* Updated button style */
+button {
+  width: 80%;
+  margin-top: 10px;
+  padding: 6px 6px;
+  font-size: 20px;
+  background-color: #e84545; /* Red color */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Hover effect for button */
+button:hover {
+  background-color: #d03d3d; /* Darker red on hover */
+}
+.signin {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f0f0f0; /* Optional: to give the background a subtle color */
+}
+
+.card-overlay {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  padding: 40px; /* Increased padding for a larger box */
+  width: 100%;
+  max-width: 600px; /* Increased max-width to make the box wider */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: for a nice shadow effect */
+  border-radius: 8px; /* Optional: rounded corners for a smoother look */
+  text-align: center;
+}
+
+.input-wrapper {
+  margin-bottom: 20px; /* Increased spacing between input fields */
+}
+
+input {
+  width: 100%;
+  padding: 12px; /* Increased padding for inputs */
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  width: 100%;
+  padding: 12px; /* Increased padding for button */
+  background-color: #d84040; /* Button background color changed */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+/* Style for the Link */
+a {
+  text-decoration: none; /* Removes the underline */
+  color: darkred; /* Sets the font color to dark red */
+  cursor: default; /* Makes it look like regular text (optional) */
+}
+
+a:hover,
+a:focus {
+  text-decoration: none; /* Ensures underline doesn't appear on hover or focus */
+  color: darkred; /* Keeps the dark red color on hover */
+}
+
+/* Specific styles for Link containing a property card */
+.property-card-link {
+  text-decoration: none; /* Removes underline */
+  color: darkred; /* Dark red font */
+  font-weight: normal; /* Regular font weight */
+}
+
+.property-card-link:hover,
+.property-card-link:focus {
+  text-decoration: none; /* Prevents hover underline */
+  color: darkred; /* Keeps color on hover */
+}
+/* General container for the form */
+.property-form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: #f9f9f9;
+  min-height: 100vh;
+}
+
+/* The form itself */
+.property-form {
+  width: 100%;
+  max-width: 600px;
+  background: #ffffff;
+  padding: 50px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Form title */
+.form-title {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Form group */
+.form-group {
+  margin-bottom: 15px;
+}
+
+/* Form labels */
+.form-label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+/* Text input fields */
+.form-input,
+.form-textarea,
+.form-select {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  transition: border-color 0.3s ease-in-out;
+}
+
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus {
+  border-color: #a11818;
+}
+
+/* Textarea */
+.form-textarea {
+  height: 100px;
+  resize: none;
+}
+
+/* Checkbox container */
+.form-checkbox-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.form-checkbox {
+  transform: scale(1.2);
+}
+
+.checkbox-label {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+/* Button container */
+.form-button-container {
+  text-align: center;
+}
+
+/* Submit button */
+.form-submit-button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #c51616;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.form-submit-button:hover {
+  background-color: #0056b3;
+}
+/* General Styles */
+.property-details {
+  font-family: Arial, sans-serif;
+  margin: 0 auto;
+  padding: 20px;
+  max-width: 900px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.property-details h1 {
+  font-size: 2em;
+  color: darkred; /* Updated font color */
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.property-details p {
+  font-size: 1em;
+  color: darkred; /* Updated font color */
+  line-height: 1.6;
+}
+
+/* Header Section */
+.header-section .back-button {
+  margin-bottom: 20px;
+}
+
+.back-button button {
+  background: none;
+  border: none;
+  font-size: 1.2em;
+  cursor: pointer;
+  color: darkred; /* Updated font color */
+  display: flex;
+  align-items: center;
+}
+
+.back-button button:hover {
+  color: #8b0000; /* Slightly darker red for hover effect */
+}
+
+/* Property Info Section */
+.property-info-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.property-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 500px; /* Allocate more vertical space for the image */
+  background-color: #f1f1f1;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.property-image img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover; /* Ensures proportional scaling */
+}
+
+.property-description {
+  margin-top: 10px;
+  margin-bottom: 20px;
+  color: darkred; /* Updated font color */
+  text-align: justify;
+}
+
+.property-details-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 10px;
+}
+
+.property-details-row p {
+  flex: 1 1 calc(33.333% - 20px);
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.property-details-row span {
+  font-weight: bold;
+  color: darkred; /* Updated font color */
+}
+
+/* Booking Section */
+.booking-section {
+  margin-top: 30px;
+  padding: 50px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.date-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.date-container label {
+  font-weight: bold;
+  color: darkred; /* Updated font color */
+}
+
+.date-container input {
+  padding: 10px;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+}
+
+.date-container input:focus {
+  border-color: darkred; /* Updated focus border color */
+}
+
+.reserve-button-container {
+  text-align: center;
+}
+
+.reserve-button-container .action-button {
+  background-color: darkred; /* Updated button color */
+  color: white;
+  padding: 10px 20px;
+  font-size: 1em;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.reserve-button-container .action-button:hover {
+  background-color: #8b0000; /* Slightly darker red for hover effect */
+}
+
+/* Reviews Section */
+.reviews-section {
+  margin-top: 40px;
+  padding: 20px;
+  background-color: #f1f1f1;
+  border-radius: 10px;
+}
+
+.reviews-section h2 {
+  font-size: 1.5em;
+  margin-bottom: 15px;
+  color: darkred; /* Updated font color */
+  text-align: center;
+}
+
+.reviews-section p {
+  font-size: 1em;
+  line-height: 1.5;
+  color: darkred; /* Updated font color */
+}
+/* General Styling */
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #f9f9f9;
+  margin: 0;
+  padding: 0;
+}
+
+.review-section {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.reviews-header {
+  border-bottom: 2px solid #eee;
+  margin-bottom: 20px;
+}
+
+.reviews-header h2 {
+  margin: 0;
+  padding: 10px 0;
+  font-size: 24px;
+}
+
+.reviews-list {
+  margin-bottom: 20px;
+}
+
+.review {
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.review:last-child {
+  border-bottom: none;
+}
+
+.review-author {
+  font-weight: bold;
+  color: darkred;
+}
+
+.review-comment {
+  margin: 5px 0;
+  font-size: 16px;
+  color: #555;
+}
+
+.no-reviews {
+  color: #999;
+  text-align: center;
+  font-style: italic;
+}
+
+.add-review-section {
+  border-top: 2px solid #eee;
+  padding-top: 20px;
+}
+
+.add-review h3 {
+  margin: 0 0 10px;
+  font-size: 20px;
+  color: #333;
+}
+
+.review-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.review-form-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.review-comment-input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.review-rating-select {
+  width: 150px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.review-submit-button {
+  padding: 10px 20px;
+  background-color: darkred;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.review-submit-button:hover {
+  background-color: #740303;
+}
+
+.eligibility-message {
+  text-align: center;
+  color: #d9534f;
+  font-weight: bold;
+}
+/* General styles for the container */
+.form-container {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  font-family: Arial, sans-serif;
+}
+
+/* Header section */
+.form-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Body section */
+.form-body {
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Add spacing between form groups */
+}
+
+/* Grouping fields */
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Label styling */
+.form-label {
+  font-size: 14px;
+  margin-bottom: 5px;
+  color: #555;
+}
+
+/* Input and textarea styling */
+.form-input,
+.form-textarea {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #333;
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* Checkbox specific alignment */
+.form-group input[type='checkbox'] {
+  width: auto;
+  margin-top: 5px;
+  cursor: pointer;
+}
+
+/* Footer section */
+.form-footer {
+  margin-top: 20px;
+  text-align: center;
+}
+
+/* Submit button */
+.form-submit-button {
+  width: 100%;
+  padding: 10px 15px;
+  background-color: #8d1414;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.form-submit-button:hover {
+  background-color: #7a0711;
+}
+
+/* Error message styling */
+.error-message {
+  color: red;
+  font-size: 14px;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+/* Toast container overrides */
+.Toastify__toast-container {
+  font-size: 14px;
+}
+
+.Toastify__toast--error {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.Toastify__toast--success {
+  background-color: #d4edda;
+  color: #155724;
+}
+/* UserProperties.css */
+.user-properties {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.header h1 {
+  font-size: 2rem;
+  color: #333;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.loading,
+.no-properties {
+  font-size: 1.2rem;
+  color: #777;
+}
+
+.property-list {
+  list-style-type: none;
+  padding: 0;
+  width: 100%;
+  max-width: 1000px;
+}
+
+.property-item {
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+.property-item:hover {
+  background-color: #f9f9f9;
+}
+
+.property-details {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+}
+
+.property-details img {
+  width: 100%;
+  max-width: 200px;
+  height: auto;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+.property-details h3 {
+  font-size: 1.5rem;
+  color: #333;
+  margin: 5px 0;
+}
+
+.property-details p {
+  color: #555;
+  margin: 5px 0;
+}
+
+.property-actions {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.edit-button,
+.delete-button {
+  padding: 8px 15px;
+  margin: 5px 0;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.edit-button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+}
+
+.edit-button:hover {
+  background-color: #45a049;
+}
+
+.delete-button {
+  background-color: #f44336;
+  color: white;
+  border: none;
+}
+
+.delete-button:hover {
+  background-color: #e53935;
+}
+
+.property-item .property-actions {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.toast-container {
+  z-index: 9999;
 }

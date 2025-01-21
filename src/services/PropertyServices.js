@@ -1,5 +1,17 @@
 import Client from './api'
 
+export const getPropertiesByCategory = async (categoryId) => {
+  try {
+    console.log(`Fetching properties for category: ${categoryId}`)
+    const response = await Client.get(`/properties?category=${categoryId}`)
+    console.log('Properties by category:', response.data)
+    return response.data
+  } catch (error) {
+    console.error('Error fetching properties by category:', error)
+    throw error
+  }
+}
+
 // Get all properties (with optional filters)
 export const GetProperties = async (filters = {}) => {
   try {
@@ -49,4 +61,15 @@ export const DeleteProperty = async (propertyId) => {
   } catch (error) {
     throw error
   }
+}
+
+
+export const GetUserProperties = async () => {
+  const token = localStorage.getItem('token')
+  const { data } = await Client.get('/properties/user/my-properties', {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+  return data
 }

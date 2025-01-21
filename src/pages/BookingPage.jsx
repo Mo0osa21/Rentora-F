@@ -1,87 +1,92 @@
 import React, { useState, useEffect } from 'react'
-import { getAllOrders, updateOrderStatus } from '../services/OrderServices'
+import {
+  getAllBookings,
+  updateBookingStatus
+} from '../services/BookingServices' // Assuming BookingServices
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 const BookingPage = () => {
-  const [orders, setOrders] = useState([])
+  const [bookings, setBookings] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    const fetchOrders = async () => {
+    const fetchBookings = async () => {
       try {
-        const ordersData = await getAllOrders()
-        setOrders(ordersData)
+        const bookingsData = await getAllBookings()
+        setBookings(bookingsData)
       } catch (error) {
-        console.error('Error fetching orders:', error.message)
-        toast.error('Failed to fetch orders. Please try again.')
+        console.error('Error fetching bookings:', error.message)
+        toast.error('Failed to fetch bookings. Please try again.')
       } finally {
         setLoading(false)
       }
     }
 
-    fetchOrders()
+    fetchBookings()
   }, [])
 
-  const handleStatusChange = async (orderId, newStatus) => {
+  const handleStatusChange = async (bookingId, newStatus) => {
     try {
-      const updatedOrder = await updateOrderStatus(orderId, newStatus)
-      console.log('Updated Order:', updatedOrder)
-      setOrders((prevOrders) =>
-        prevOrders.map((order) =>
-          order._id === orderId ? { ...order, status: newStatus } : order
+      const updatedBooking = await updateBookingStatus(bookingId, newStatus)
+      console.log('Updated Booking:', updatedBooking)
+      setBookings((prevBookings) =>
+        prevBookings.map((booking) =>
+          booking._id === bookingId
+            ? { ...booking, status: newStatus }
+            : booking
         )
       )
     } catch (error) {
       console.error(
-        'Error updating order status:',
+        'Error updating booking status:',
         error.response?.data || error.message
       )
+      toast.error('Failed to update booking status. Please try again.')
     }
   }
 
-  if (loading) return <p>Loading orders...</p>
+  if (loading) return <p>Loading bookings...</p>
   if (error) return <p style={{ color: 'red' }}>{error}</p>
 
   return (
     <div className="orders-page">
       <ToastContainer />
-      <h1>All Orders</h1>
+      <h1>All Bookings</h1>
       <table>
         <thead>
           <tr>
-            <th>Order ID</th>
+            <th>Booking ID</th>
             <th>User</th>
-            <th>Products</th>
+            <th>Properties</th>
             <th>Total Price</th>
             <th>Status</th>
           </tr>
         </thead>
         <tbody>
-          {orders.map((order) => (
-            <tr key={order._id}>
-              <td>{order._id}</td>
-              <td>{order.user?.name || 'Guest'}</td>
+          {bookings.map((booking) => (
+            <tr key={booking._id}>
+              <td>{booking._id}</td>
+              <td>{booking.user?.name || 'Guest'}</td>
               <td>
-                {order.products.map((item) => (
-                  <div key={item.product._id}>
-                    {item.product.name} x {item.quantity}
+                {booking.properties.map((item) => (
+                  <div key={item.property._id}>
+                    {item.property.title} x {item.quantity}
                   </div>
                 ))}
               </td>
-              <td>${order.totalPrice}</td>
+              <td>${booking.totalPrice}</td>
               <td>
                 <select
-                  value={order.status}
+                  value={booking.status}
                   onChange={(e) =>
-                    handleStatusChange(order._id, e.target.value)
+                    handleStatusChange(booking._id, e.target.value)
                   }
                 >
                   <option value="Pending">Pending</option>
-                  <option value="Processing">Processing</option>
-                  <option value="Shipped">Shipped</option>
-                  <option value="Delivered">Delivered</option>
+                  <option value="Confirmed">Confirmed</option>
+                  <option value="Completed">Completed</option>
                   <option value="Cancelled">Cancelled</option>
                 </select>
               </td>

@@ -1,126 +1,176 @@
 import { useParams, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { getProduct } from '../services/ProductServices'
-import { addToCart } from '../services/CartServices'
+import { GetProperty } from '../services/PropertyServices'
+import { PlaceBooking, GetPropertyBookings } from '../services/BookServices'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import Reviews from '../components/Reviews'
 import { MdArrowBackIosNew } from 'react-icons/md'
+import Reviews from '../components/Reviews' // Import the Reviews component
 
-const ProeprtytDetails = ({ user }) => {
-  const { productId } = useParams()
+const PropertyDetails = ({ user }) => {
+  const { propertyId } = useParams()
   const navigate = useNavigate()
-  const [product, setProduct] = useState(null)
+  const [property, setProperty] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
-  const [quantities, setQuantities] = useState({})
+  const [startDate, setStartDate] = useState('')
+  const [endDate, setEndDate] = useState('')
+  const [bookedDates, setBookedDates] = useState([])
 
   useEffect(() => {
-    const fetchProductDetails = async () => {
+    const fetchData = async () => {
       try {
-        const productData = await getProduct(productId)
-        setProduct(productData)
+        const propertyData = await GetProperty(propertyId)
+        setProperty(propertyData)
+
+        const bookings = await GetPropertyBookings(propertyId)
+        const dates = bookings.flatMap((booking) => {
+          const start = new Date(booking.startDate)
+          const end = new Date(booking.endDate)
+          const dateArray = []
+
+          for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+            dateArray.push(new Date(d).toISOString().split('T')[0])
+          }
+          return dateArray
+        })
+
+        setBookedDates(dates)
       } catch (err) {
-        console.error('Error fetching product details:', err)
-        toast.error('Failed to load product details.')
+        console.error('Error fetching data:', err)
+        toast.error('Failed to load data.')
       } finally {
         setLoading(false)
       }
     }
 
-    fetchProductDetails()
-  }, [productId])
+    fetchData()
+  }, [propertyId])
 
-  const handleAddToCart = async (productId, quantity, price, discount = 0) => {
+  const isDateBooked = (date) => bookedDates.includes(date)
+
+  const handlePlaceOrder = async () => {
+    if (!startDate || !endDate) {
+      toast.error('Please select both start and end dates.')
+      return
+    }
+
+    if (new Date(endDate) < new Date(startDate)) {
+      toast.error('End date cannot be before start date.')
+      return
+    }
     try {
-      const products = [
-        {
-          product: productId,
-          quantity: quantity,
-          price: price,
-          discount: discount
-        }
-      ]
-      await addToCart(products)
-      toast.success('Product added to cart')
+      const orderData = {
+        property: propertyId,
+        user: user.id,
+        startDate,
+        endDate,
+        price: property.discountedPrice
+      }
+      await PlaceBooking(orderData)
+      toast.success('Reservation successful')
+      navigate('/bookings')
     } catch (err) {
-      console.error('Error adding product to cart:', err)
-      toast.error('Failed to add product to cart')
+      console.error('Error placing order:', err)
+      toast.error('Failed to place order')
     }
   }
 
-  const handleQuantityChange = (productId, event) => {
-    const newQuantity = Math.max(1, event.target.value)
-    setQuantities((prevQuantities) => ({
-      ...prevQuantities,
-      [productId]: newQuantity
-    }))
+  const handleBackButton = () => {
+    navigate('/home')
   }
 
-  const handleBackButton = () => {
-    navigate('/products')
+  const handleEndDateChange = (e) => {
+    const selectedEndDate = e.target.value
+    if (startDate && selectedEndDate < startDate) {
+      toast.error('End date cannot be before start date.')
+      return
+    }
+    if (isDateBooked(selectedEndDate)) {
+      toast.error('Selected end date is already booked.')
+      return
+    }
+    setEndDate(selectedEndDate)
   }
 
   if (loading) return <p>Loading...</p>
   if (error) return <p style={{ color: 'red' }}>{error}</p>
-  if (!product) return <p>Product not found.</p>
+  if (!property) return <p>Property not found.</p>
 
   return (
-    <div className="product-details" style={{ position: 'relative' }}>
+    <div className="property-details" style={{ position: 'relative' }}>
       <ToastContainer />
-      <button
-        onClick={handleBackButton}
-        style={{
-          position: 'absolute',
-          top: '10px',
-          left: '10px',
-          fontSize: '14px',
-          padding: '5px 10px',
-          backgroundColor: '#ff6f00',
-          color: 'white',
-          border: 'none',
-          borderRadius: '5px',
-          cursor: 'pointer',
-          zIndex: 10
-        }}
-        className="back-button"
-      >
-        <MdArrowBackIosNew />
-      </button>
-      <h1>{product.name}</h1>
-      <img src={product.imageUrl} alt={product.name} />
-      <p>{product.description}</p>
-      <p>Price: ${product.discountedPrice}</p>
-      <p>Stock Quantity: {product.stockQuantity}</p>
-      <p>Category: {product.category?.name || 'No Category'}</p>
-      <div className="quantity-container">
-        <label htmlFor={`quantity-${product._id}`}>Quantity:</label>
-        <input
-          type="number"
-          id={`quantity-${product._id}`}
-          name="quantity"
-          min="1"
-          max={product.stockQuantity}
-          value={quantities[product._id] || 1}
-          onChange={(e) => handleQuantityChange(product._id, e)}
-          className="quantity-input"
-        />
+
+      <div className="header-section">
+        <div className="back-button">
+          <button onClick={handleBackButton}>
+            <MdArrowBackIosNew />
+          </button>
+        </div>
       </div>
-      <button
-        onClick={() =>
-          handleAddToCart(
-            product._id,
-            quantities[product._id] || 1,
-            product.price
-          )
-        }
-        className="action-button add-to-cart"
-      >
-        Add to Cart
-      </button>
-      <Reviews productId={product._id} userId={user.id} />
+
+      <div className="property-info-section">
+        <div className="property-info">
+          <h1>{property.name}</h1>
+          <div className="property-image">
+            <img src={property.imageUrl} alt={property.name} />
+          </div>
+          <p className="property-description">{property.description}</p>
+          <div className="property-details-row">
+            <p>
+              Price per night: <span>${property.discountedPrice}</span>
+            </p>
+            <p>
+              Location: <span>{property.location}</span>
+            </p>
+            <p>
+              Category: <span>{property.category?.name || 'No Category'}</span>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div className="booking-section">
+        <div className="booking-form">
+          <div className="date-container">
+            <label>Start Date:</label>
+            <input
+              type="date"
+              value={startDate}
+              onChange={(e) => {
+                if (isDateBooked(e.target.value)) {
+                  toast.error('Selected start date is already booked.')
+                  return
+                }
+                setStartDate(e.target.value)
+                setEndDate('')
+              }}
+            />
+            <label>End Date:</label>
+            <input
+              type="date"
+              value={endDate}
+              onChange={handleEndDateChange}
+              min={startDate}
+            />
+          </div>
+
+          <div className="reserve-button-container">
+            <button
+              onClick={handlePlaceOrder}
+              className="action-button place-order"
+            >
+              Reserve Property
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div className="reviews-section">
+        <Reviews propertyId={propertyId} user={user} />
+      </div>
     </div>
   )
 }
 
-export default ProeprtytDetails
+export default PropertyDetails
