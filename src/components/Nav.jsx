@@ -1,14 +1,28 @@
 import { Link } from 'react-router-dom'
-import { useState, useEffect } from 'react' // Import useState and useEffect
+import { useState, useEffect } from 'react'
+import { CheckSession } from '../services/Auth';
+import { useNavigate } from 'react-router-dom'; // Import useState and useEffect
 
 const Nav = ({ user, handleLogOut }) => {
-  const [pictureUrl, setPictureUrl] = useState('') // State to store user's picture URL
+  const [userData, setUserData] = useState(null); // Initialize user data state
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (user) {
-      setPictureUrl(user.profile && user.profile.picture) // Update pictureUrl on user change
-    }
-  }, [user]) // Dependency array: update on user change
+    const fetchUserData = async () => {
+      try {        
+        const user = await CheckSession(); // Fetch user data
+        setUserData(user);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+        navigate('/signin'); // Redirect to signin on error
+      }
+    };
+    fetchUserData();
+  }, [navigate]); // Dependency array: update on navigation change
+
+  if (!userData) {
+    return <div className="loading-container">Loading profile... or User not logged in.</div>; // Loading message
+  }
 
   let userOptions
   if (user) {
@@ -58,15 +72,11 @@ const Nav = ({ user, handleLogOut }) => {
     <header>
       <Link to="/profile">
         <div className="logo-wrapper" alt="logo">
-          {pictureUrl ? ( // Conditionally render the user's picture
-            <img className="logo" src={pictureUrl} alt="User Profile" />
-          ) : (
-            <img
-              className="logo"
-              src="https://avatars.dicebear.com/api/gridy/app.svg"
-              alt="Default Logo"
-            />
-          )}
+        <img
+            src={userData.picture}
+            alt={`${userData.name}'s profile`}
+            className="profile-picture"
+          />
         </div>
       </Link>
       {user ? userOptions : publicOptions}
