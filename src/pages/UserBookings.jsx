@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { GetUserBookings, CancelBooking } from '../services/BookServices'
+import {
+  GetUserBookings,
+  CancelBooking,
+  UpdateBookingStatus
+} from '../services/BookServices'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
@@ -11,7 +15,45 @@ const UserBookings = () => {
     const fetchBookings = async () => {
       try {
         const response = await GetUserBookings()
-        setBookings(response)
+
+        // Get the current date
+        const currentDate = new Date()
+
+        // Update the status of each booking
+        const updatedBookings = response.map((booking) => {
+          const startDate = new Date(booking.startDate)
+          const endDate = new Date(booking.endDate)
+
+          let newStatus = booking.status
+
+          if (currentDate < startDate) {
+            newStatus = 'Pending'
+          } else if (currentDate >= startDate && currentDate <= endDate) {
+            newStatus = 'Active'
+          } else if (currentDate > endDate) {
+            newStatus = 'Expired'
+          }
+
+          // Only update status if necessary
+          if (booking.status !== newStatus) {
+            // Update the booking status via API
+            UpdateBookingStatus(booking._id, newStatus)
+              .then(() => {
+                toast.success(
+                  `Booking ${booking._id} status updated to ${newStatus}`
+                )
+              })
+              .catch((error) => {
+                toast.error(
+                  `Failed to update status for booking ${booking._id}`
+                )
+              })
+          }
+
+          return { ...booking, status: newStatus }
+        })
+
+        setBookings(updatedBookings)
       } catch (error) {
         console.error('Error fetching bookings:', error.message)
         toast.error('Failed to load your bookings.')
@@ -21,6 +63,12 @@ const UserBookings = () => {
     }
 
     fetchBookings()
+
+    // Optional: Set up a periodic status update (e.g., every 1 minute)
+    const interval = setInterval(fetchBookings, 60000)
+
+    // Clean up the interval on component unmount
+    return () => clearInterval(interval)
   }, [])
 
   const handleCancelBooking = async (bookingId) => {

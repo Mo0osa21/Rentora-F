@@ -2,7 +2,6 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { GetProperty } from '../services/PropertyServices'
 import { PlaceBooking, GetPropertyBookings } from '../services/BookServices'
-import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { MdArrowBackIosNew } from 'react-icons/md'
@@ -39,10 +38,6 @@ const PropertyDetails = ({ user }) => {
         })
 
         setBookedDates(dates.map((date) => new Date(date)))
-
-        await axios.get(
-          `http://your-backend-url/api/update-book-status/${propertyId}`
-        )
       } catch (err) {
         console.error('Error fetching data:', err)
         toast.error('Failed to load data.')
@@ -82,7 +77,7 @@ const PropertyDetails = ({ user }) => {
   }
 
   const handleBackButton = () => {
-    navigate('/home')
+    navigate('/properties')
   }
 
   if (loading) return <p>Loading...</p>

@@ -63,6 +63,7 @@ const Offers = ({ user }) => {
                 <h2>{property.title}</h2>
                 <p>Name: {property.name}</p>
                 <p>Location: {property.location}</p>
+                <p>Discount: {property.discount}%</p>
                 <p>Price: ${property.discountedPrice}</p>
               </Link>
               <button
