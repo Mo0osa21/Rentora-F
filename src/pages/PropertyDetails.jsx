@@ -8,6 +8,7 @@ import { MdArrowBackIosNew } from 'react-icons/md'
 import Reviews from '../components/Reviews'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
+import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api'
 
 const PropertyDetails = ({ user }) => {
   const { propertyId } = useParams()
@@ -80,6 +81,11 @@ const PropertyDetails = ({ user }) => {
     navigate('/properties')
   }
 
+  // Ensure that the property exists and has valid coordinates
+  const propertyLocation = property
+    ? { lat: property.location.lat, lng: property.location.lng }
+    : null
+
   if (loading) return <p>Loading...</p>
   if (error) return <p style={{ color: 'red' }}>{error}</p>
   if (!property) return <p>Property not found.</p>
@@ -115,6 +121,21 @@ const PropertyDetails = ({ user }) => {
             </p>
           </div>
         </div>
+      </div>
+
+      {/* Google Map Section */}
+      <div className="map-section">
+        {propertyLocation && (
+          <LoadScript googleMapsApiKey="YOUR_GOOGLE_MAPS_API_KEY">
+            <GoogleMap
+              mapContainerStyle={{ width: '100%', height: '400px' }}
+              center={propertyLocation}
+              zoom={14}
+            >
+              <Marker position={propertyLocation} />
+            </GoogleMap>
+          </LoadScript>
+        )}
       </div>
 
       <div className="booking-section">
