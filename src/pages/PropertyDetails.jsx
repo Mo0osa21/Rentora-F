@@ -8,7 +8,7 @@ import { MdArrowBackIosNew } from 'react-icons/md'
 import Reviews from '../components/Reviews'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api'
+
 
 const PropertyDetails = ({ user }) => {
   const { propertyId } = useParams()

@@ -767,6 +767,7 @@ a:focus {
   align-items: center;
   height: 500px; /* Allocate more vertical space for the image */
   /* background-color: #f1f1f1; */
+  /* background-color: #f1f1f1; */
   border-radius: 10px;
   overflow: hidden;
 }
@@ -1330,10 +1331,6 @@ button:disabled {
   background-color: #ddd;
 }
 
-button:hover:not(:disabled) {
-  background-color: #4d0000;
-}
-
 
 /* Style for the Sign-up link/button */
 a p {
@@ -1393,7 +1390,12 @@ a p:hover {
   border-radius: 50%;
   object-fit: cover;
 }
-
+.profile-picture2 {
+  width: 3.5em;
+  height: 3.5em;
+  border-radius: 60%;
+  object-fit: cover;
+}
 .profile-info-container {
   text-align: left;
   display: flex;
@@ -1410,4 +1412,3 @@ a p:hover {
   text-align: center;
   font-size: 1.2em;
 }
-
