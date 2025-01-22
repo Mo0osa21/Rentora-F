@@ -123,21 +123,6 @@ const PropertyDetails = ({ user }) => {
         </div>
       </div>
 
-      {/* Google Map Section */}
-      <div className="map-section">
-        {propertyLocation && (
-          <LoadScript googleMapsApiKey="YOUR_GOOGLE_MAPS_API_KEY">
-            <GoogleMap
-              mapContainerStyle={{ width: '100%', height: '400px' }}
-              center={propertyLocation}
-              zoom={14}
-            >
-              <Marker position={propertyLocation} />
-            </GoogleMap>
-          </LoadScript>
-        )}
-      </div>
-
       <div className="booking-section">
         <div className="booking-form">
           <div className="date-container">

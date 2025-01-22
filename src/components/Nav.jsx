@@ -14,7 +14,7 @@ const Nav = ({ user, handleLogOut }) => {
   if (user) {
     userOptions = (
       <nav className="nav">
-        <h3>Welcome {user.email}!</h3>
+        <h3>Welcome {user.name}!</h3>
 
         <Link to="/properties" className="nav-link">
           Home
@@ -33,7 +33,7 @@ const Nav = ({ user, handleLogOut }) => {
         <Link to="propertyform" className="nav-link">
           Add new property
         </Link>
-        <Link onClick={handleLogOut} to="/" className="nav-link">
+        <Link onClick={handleLogOut} to="/signin" className="nav-link">
           Sign Out
         </Link>
       </nav>

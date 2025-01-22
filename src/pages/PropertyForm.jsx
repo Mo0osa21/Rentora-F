@@ -203,7 +203,6 @@ const PropertyForm = () => {
             value={propertyData.discount}
             onChange={handleChange}
             className="form-input"
-            required
           />
         </div>
 
