@@ -75,7 +75,7 @@ const Nav = ({ user, handleLogOut }) => {
         <img
             src={userData.picture}
             alt={`${userData.name}'s profile`}
-            className="profile-picture"
+            className="profile-picture2"
           />
         </div>
       </Link>

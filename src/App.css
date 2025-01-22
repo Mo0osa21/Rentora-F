@@ -1390,7 +1390,12 @@ a p:hover {
   border-radius: 50%;
   object-fit: cover;
 }
-
+.profile-picture2 {
+  width: 3.5em;
+  height: 3.5em;
+  border-radius: 60%;
+  object-fit: cover;
+}
 .profile-info-container {
   text-align: left;
   display: flex;
