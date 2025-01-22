@@ -767,6 +767,7 @@ a:focus {
   align-items: center;
   height: 500px; /* Allocate more vertical space for the image */
   /* background-color: #f1f1f1; */
+  /* background-color: #f1f1f1; */
   border-radius: 10px;
   overflow: hidden;
 }

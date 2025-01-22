@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import {
   GetReviewsForProperty,
   AddReview,
+  EditReview,
+  DeleteReview,
   CheckReviewEligibility
 } from '../services/ReviewServices'
 import { toast } from 'react-toastify'
@@ -11,6 +13,7 @@ const Reviews = ({ propertyId, user }) => {
   const [comment, setComment] = useState('')
   const [rating, setRating] = useState(1)
   const [isEligible, setIsEligible] = useState(false)
+  const [editingReview, setEditingReview] = useState(null)
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -18,7 +21,7 @@ const Reviews = ({ propertyId, user }) => {
         const response = await GetReviewsForProperty(propertyId)
         setReviews(response)
       } catch (err) {
-        toast.error('Failed to load reviews')
+        toast.error('Failed to fetch reviews')
       }
     }
 
@@ -26,11 +29,9 @@ const Reviews = ({ propertyId, user }) => {
       if (!user) return
       try {
         const response = await CheckReviewEligibility(user.id, propertyId)
-        console.log('Eligibility response:', response)
-        setIsEligible(response) // Ensure correct key from API response
+        setIsEligible(response)
       } catch (err) {
-        console.error('Error checking eligibility:', err)
-        setIsEligible(false) // Handle error scenario
+        setIsEligible(false)
       }
     }
 
@@ -45,13 +46,45 @@ const Reviews = ({ propertyId, user }) => {
     }
 
     try {
-      await AddReview({ propertyId, userId: user.id, comment, rating })
-      toast.success('Review submitted successfully')
+      if (editingReview) {
+        await EditReview(editingReview._id, { comment, rating })
+        setReviews((prevReviews) =>
+          prevReviews.map((r) =>
+            r._id === editingReview._id ? { ...r, comment, rating } : r
+          )
+        )
+        setEditingReview(null)
+        toast.success('Review updated successfully')
+      } else {
+        const newReview = await AddReview({
+          propertyId,
+          userId: user.id,
+          comment,
+          rating
+        })
+        setReviews([...reviews, { ...newReview, userId: { name: user.name } }])
+        toast.success('Review submitted successfully')
+      }
       setComment('')
       setRating(1)
-      setReviews([...reviews, { userId: { name: user.name }, comment, rating }])
     } catch (err) {
-      toast.error('Failed to add review')
+      toast.error('Failed to submit review')
+    }
+  }
+
+  const handleEditReview = (review) => {
+    setComment(review.comment)
+    setRating(review.rating)
+    setEditingReview(review)
+  }
+
+  const handleDeleteReview = async (reviewId) => {
+    try {
+      await DeleteReview(reviewId)
+      setReviews(reviews.filter((review) => review._id !== reviewId))
+      toast.success('Review deleted successfully')
+    } catch (err) {
+      toast.error('Failed to delete review')
     }
   }
 
@@ -62,12 +95,20 @@ const Reviews = ({ propertyId, user }) => {
       </div>
       <div className="reviews-list">
         {reviews.length > 0 ? (
-          reviews.map((review, index) => (
-            <div key={index} className="review">
+          reviews.map((review) => (
+            <div key={review._id} className="review">
               <p className="review-author">
                 <strong>{review.userId.name}</strong> rated {review.rating}/5
               </p>
               <p className="review-comment">{review.comment}</p>
+              {user?.id === review.userId?._id && (
+                <div className="review-actions">
+                  <button onClick={() => handleEditReview(review)}>Edit</button>
+                  <button onClick={() => handleDeleteReview(review._id)}>
+                    Delete
+                  </button>
+                </div>
+              )}
             </div>
           ))
         ) : (
@@ -78,7 +119,7 @@ const Reviews = ({ propertyId, user }) => {
       <div className="add-review-section">
         {isEligible ? (
           <div className="add-review">
-            <h3>Leave a Review</h3>
+            <h3>{editingReview ? 'Edit Review' : 'Leave a Review'}</h3>
             <div className="review-form">
               <textarea
                 className="review-comment-input"
@@ -89,7 +130,7 @@ const Reviews = ({ propertyId, user }) => {
               <select
                 className="review-rating-select"
                 value={rating}
-                onChange={(e) => setRating(e.target.value)}
+                onChange={(e) => setRating(Number(e.target.value))}
               >
                 {[1, 2, 3, 4, 5].map((num) => (
                   <option key={num} value={num}>
@@ -101,7 +142,7 @@ const Reviews = ({ propertyId, user }) => {
                 className="review-submit-button"
                 onClick={handleReviewSubmit}
               >
-                Submit Review
+                {editingReview ? 'Update Review' : 'Submit Review'}
               </button>
             </div>
           </div>
