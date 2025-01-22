@@ -28,3 +28,12 @@ export const CheckSession = async () => {
     throw error
   }
 }
+
+export const UpdatePassword = async (data) => {
+  try {
+    const res = await Client.post('/auth/update-password', data);
+    return res.data; // Handle success response (e.g., success message)
+  } catch (error) {
+    throw error; // Re-throw for handling in the calling component
+  }
+};

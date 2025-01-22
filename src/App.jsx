@@ -14,6 +14,7 @@ import { useEffect } from 'react'
 import PropertyDetails from './pages/PropertyDetails'
 import UserPropertiesPage from './pages/UserPropertiesPage'
 import EditPropertyForm from './components/EditPropertyForm'
+import UpdatePassword from './pages/UpdatePass'
 
 const App = () => {
   const [user, setUser] = useState(null)
@@ -58,6 +59,8 @@ const App = () => {
             element={<EditPropertyForm />}
           />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/UpdatePassword" element={<update-password />} />
+
         </Routes>
       </main>
     </div>
