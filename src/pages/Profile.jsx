@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { CheckSession } from '../services/Auth'; // Import CheckSession
 import { useNavigate } from 'react-router-dom';
 
+
 const Profile = () => {
   const [userData, setUserData] = useState(null); // Initialize user data state
   const navigate = useNavigate();
@@ -37,11 +38,7 @@ const Profile = () => {
         <div className="profile-info-container">
           <p><strong>Name:</strong> {userData.name}</p>
           <p><strong>Email:</strong> {userData.email}</p>
-          {userData.profile && (
-            <div className="profile-bio">
-              <p><strong>Bio:</strong> {userData.profile.bio}</p>
-            </div>
-          )}
+          <a href='update-password'>Reset Password</a>
         </div>
       </div>
     </div>

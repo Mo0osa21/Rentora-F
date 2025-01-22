@@ -82,7 +82,7 @@ const PropertyDetails = ({ user }) => {
   }
 
   const handleBackButton = () => {
-    navigate('/home')
+    navigate('/properties')
   }
 
   if (loading) return <p>Loading...</p>

@@ -19,13 +19,13 @@ const SignIn = ({ setUser }) => {
   }
 
   return (
-    <div className="signin">
-      <div className="signin-content">
-        <div className="form-container">
-          <div className="card-overlay centered">
+    <div className="signin-page">
+      <div className="signin-content-wrapper">
+        <div className="form-section">
+          <div className="overlay-card centered">
             <h1>Rentora</h1>
-            <form className="col" onSubmit={handleSubmit}>
-              <div className="input-wrapper">
+            <form className="form-column" onSubmit={handleSubmit}>
+              <div className="input-group">
                 <label htmlFor="email">Email</label>
                 <input
                   onChange={handleChange}
@@ -36,7 +36,7 @@ const SignIn = ({ setUser }) => {
                   required
                 />
               </div>
-              <div className="input-wrapper">
+              <div className="input-group">
                 <label htmlFor="password">Password</label>
                 <input
                   onChange={handleChange}
@@ -49,11 +49,13 @@ const SignIn = ({ setUser }) => {
               <button disabled={!formValues.email || !formValues.password}>
                 Sign In
               </button>
-             <a href='/register'><p>Sign up</p></a> 
+              <a href="/register">
+                <p>Sign up</p>
+              </a>
             </form>
           </div>
         </div>
-        <div className="image-container">
+        <div className="image-section">
           <img
             src="https://i.pinimg.com/736x/c8/04/c2/c804c2c85c47f07845fbacdb288ece26.jpg"
             alt="Illustration"

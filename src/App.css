@@ -461,14 +461,6 @@ h1 {
 .cancel-button:hover {
   background-color: #e60000;
 }
-.signin {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: #f2f2f2;
-  padding: 0 20px; /* Optional, for some spacing */
-}
 
 .signin-content {
   display: flex;
@@ -547,13 +539,6 @@ button:disabled {
 /* Hover effect for button */
 button:hover {
   background-color: #d03d3d; /* Darker red on hover */
-}
-.signin {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background-color: #f0f0f0; /* Optional: to give the background a subtle color */
 }
 
 .card-overlay {
@@ -781,7 +766,7 @@ a:focus {
   justify-content: center;
   align-items: center;
   height: 500px; /* Allocate more vertical space for the image */
-  background-color: #f1f1f1;
+  /* background-color: #f1f1f1; */
   border-radius: 10px;
   overflow: hidden;
 }
@@ -1178,7 +1163,6 @@ body {
 
 .property-details img {
   width: 100%;
-  max-width: 200px;
   height: auto;
   object-fit: cover;
   margin-bottom: 10px;
@@ -1274,6 +1258,107 @@ body {
 
 .nav-link:active {
   transform: scale(0.98);
+}
+/* Prevent scrolling */
+
+.signin-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.signin-content-wrapper {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1200px;
+  padding: 20px;
+}
+
+.form-section {
+  width: 55%; /* Slightly more space for the form */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px;
+  text-align: left;
+  height: 100%;
+  box-sizing: border-box; /* Ensures padding doesn't affect total width */
+}
+
+.overlay-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  justify-content: center;
+}
+
+.form-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-group {
+  margin-bottom: 15px;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+button {
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:disabled {
+  background-color: #ddd;
+}
+
+
+/* Style for the Sign-up link/button */
+a p {
+  color: #8f2323;
+  text-decoration: none;
+  font-size: 1rem;
+  margin-top: 10px;
+  cursor: pointer;
+  text-align: center;
+}
+
+a p:hover {
+  text-decoration: underline;
+}
+
+/* Image section styling */
+.image-section {
+  width: 45%; /* Smaller image section */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.image-section img {
+  width: 80%; /* Reduce the size of the image */
+  height: auto; /* Maintain aspect ratio */
+  max-height: 550px; /* Max height to keep it proportional */
+  border-radius: 10px;
 }
 
 .profile-container {
