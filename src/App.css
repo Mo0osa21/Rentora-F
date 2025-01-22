@@ -1330,6 +1330,10 @@ button:disabled {
   background-color: #ddd;
 }
 
+button:hover:not(:disabled) {
+  background-color: #4d0000;
+}
+
 
 /* Style for the Sign-up link/button */
 a p {
@@ -1406,3 +1410,4 @@ a p:hover {
   text-align: center;
   font-size: 1.2em;
 }
+

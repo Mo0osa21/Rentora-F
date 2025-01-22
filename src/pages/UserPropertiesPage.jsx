@@ -20,7 +20,6 @@ const UserProperties = () => {
       setProperties(data)
     } catch (error) {
       console.error('Error fetching user properties:', error)
-      toast.error('Failed to fetch your properties')
     } finally {
       setLoading(false)
     }
@@ -31,17 +30,15 @@ const UserProperties = () => {
   }
 
   const handleDelete = async (propertyId) => {
-    if (window.confirm('Are you sure you want to delete this property?')) {
-      try {
-        await DeleteProperty(propertyId)
-        toast.success('Property deleted successfully')
-        setProperties(
-          properties.filter((property) => property._id !== propertyId)
-        )
-      } catch (error) {
-        console.error('Error deleting property:', error)
-        toast.error('Failed to delete property')
-      }
+    try {
+      await DeleteProperty(propertyId)
+      toast.success('Property deleted successfully')
+      setProperties(
+        properties.filter((property) => property._id !== propertyId)
+      )
+    } catch (error) {
+      console.error('Error deleting property:', error)
+      toast.error('Failed to delete property')
     }
   }
 

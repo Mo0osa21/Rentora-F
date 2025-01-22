@@ -2,13 +2,13 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { GetProperty } from '../services/PropertyServices'
 import { PlaceBooking, GetPropertyBookings } from '../services/BookServices'
-import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { MdArrowBackIosNew } from 'react-icons/md'
 import Reviews from '../components/Reviews'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
+import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api'
 
 const PropertyDetails = ({ user }) => {
   const { propertyId } = useParams()
@@ -39,10 +39,6 @@ const PropertyDetails = ({ user }) => {
         })
 
         setBookedDates(dates.map((date) => new Date(date)))
-
-        await axios.get(
-          `http://your-backend-url/api/update-book-status/${propertyId}`
-        )
       } catch (err) {
         console.error('Error fetching data:', err)
         toast.error('Failed to load data.')
@@ -84,6 +80,11 @@ const PropertyDetails = ({ user }) => {
   const handleBackButton = () => {
     navigate('/properties')
   }
+
+  // Ensure that the property exists and has valid coordinates
+  const propertyLocation = property
+    ? { lat: property.location.lat, lng: property.location.lng }
+    : null
 
   if (loading) return <p>Loading...</p>
   if (error) return <p style={{ color: 'red' }}>{error}</p>

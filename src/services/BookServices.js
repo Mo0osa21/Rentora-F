@@ -33,13 +33,13 @@ export const GetUserBookings = async () => {
   }
 }
 
-// Update booking status (e.g., pending, active, expired)
-export const UpdateBookingStatus = async (bookId, status) => {
+export const UpdateBookingStatus = async (id, status) => {
   try {
-    const res = await Client.put(`/books/${bookId}`, { status })
+    console.log('Booking ID:', id)
+    const res = await Client.put(`/books/${id}`, { status })
     return res.data
   } catch (error) {
-    console.error('Error updating booking status:', error)
+    console.error('Failed to update booking status', error)
     throw error
   }
 }
