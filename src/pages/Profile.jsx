@@ -33,7 +33,7 @@ const Profile = () => {
       <div className="profile-info">
         {userData.profile && userData.profile.picture} 
         
-        {/* // Conditional rendering */}
+       
           <img
             src= {userData.picture}
             alt={`${userData.name}'s profile`}
