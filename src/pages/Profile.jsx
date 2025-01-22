@@ -16,34 +16,33 @@ const Profile = () => {
         navigate('/signin'); // Redirect to signin on error
       }
     };
-
     fetchUserData();
   }, [navigate]); // Dependency array: update on navigation change
 
   if (!userData) {
-    return <div>Loading profile... or User not logged in.</div>; // Loading message
+    return <div className="loading-container">Loading profile... or User not logged in.</div>; // Loading message
   }
 
   return (
     <div className="profile-container">
-      <h1>My Profile</h1>
-      <div>
-      {userData.profile}
-      </div>
-      <div className="profile-info">
-        {userData.profile && userData.profile.picture} 
-        
-       
+      <h1 className="profile-header">My Profile</h1>
+      <div className="profile-content">
+        <div className="profile-image-container">
           <img
-            src= {userData.picture}
+            src={userData.picture}
             alt={`${userData.name}'s profile`}
             className="profile-picture"
-           
           />
-        
-        <p><strong>Name:</strong> {userData.name}</p>
-        <p><strong>Email:</strong> {userData.email}</p>
-        {/* Add other user details as needed */}
+        </div>
+        <div className="profile-info-container">
+          <p><strong>Name:</strong> {userData.name}</p>
+          <p><strong>Email:</strong> {userData.email}</p>
+          {userData.profile && (
+            <div className="profile-bio">
+              <p><strong>Bio:</strong> {userData.profile.bio}</p>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

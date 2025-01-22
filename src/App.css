@@ -1275,3 +1275,49 @@ body {
 .nav-link:active {
   transform: scale(0.98);
 }
+
+.profile-container {
+  padding: 20px;
+  max-width: 800px;
+  margin: auto;
+  text-align: center;
+}
+
+.profile-header {
+  font-size: 2em;
+  margin-bottom: 20px;
+}
+
+.profile-content {
+  display: flex;
+  flex-direction: column; /* Stack the content vertically */
+  align-items: center; /* Center-align the content */
+}
+
+.profile-image-container {
+  margin-bottom: 20px; /* Space between image and user details */
+}
+
+.profile-picture {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.profile-info-container {
+  text-align: left;
+  display: flex;
+  flex-direction: column; /* Stack the details vertically */
+  align-items: flex-start; /* Align the details to the left */
+}
+
+.profile-bio {
+  margin-top: 10px;
+  font-style: italic;
+}
+
+.loading-container {
+  text-align: center;
+  font-size: 1.2em;
+}
