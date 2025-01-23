@@ -1412,3 +1412,8 @@ a p:hover {
   text-align: center;
   font-size: 1.2em;
 }
+
+.reset-password-link {
+  color: #007bff;
+  text-decoration: underline;
+}

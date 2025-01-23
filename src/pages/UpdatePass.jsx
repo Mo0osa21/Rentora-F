@@ -44,6 +44,7 @@ const UpdatePass = () => {
           onChange={(e) => setOldPassword(e.target.value)}
           required
         />
+        
         <label htmlFor="newPassword">New Password:</label>
         <input
           type="password"
@@ -61,6 +62,7 @@ const UpdatePass = () => {
           required
         />
         <button type="submit">Update Password</button>
+        
       </form>
     </div>
   );
