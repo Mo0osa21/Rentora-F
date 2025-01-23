@@ -104,7 +104,7 @@ const PropertiesPage = ({ user }) => {
                 <h2>{property.title}</h2>
                 <p>Name: {property.name}</p>
                 <p>Location: {property.location}</p>
-                <p>Price: ${property.price}</p>
+                <p>Price: ${property.discountedPrice}</p>
                 <button
                   className="book-buttonp"
                   aria-label={`Book ${property.title}`}

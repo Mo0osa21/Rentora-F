@@ -36,6 +36,10 @@ The data that will be utilised in an One method of describing the data that will
 
 ![erd](./erd.jpeg)
 
+## components diagram
+
+![componentsdigram](./Blank%20board.jpeg)
+
 # wireframe:
 
 ![wireFrame](./wireframe.png)
@@ -77,6 +81,11 @@ The data that will be utilised in an One method of describing the data that will
 ![Details](./Details.png)
 
 [wireFrame](https://www.canva.com/design/DAGcPlfYAFM/sZZUWBEjSTZsFIqC7lz64A/edit?utm_content=DAGcPlfYAFM&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
+
+## Trello
+
+![Trello](./trello.png)
+[Tello](https://trello.com/b/eVzY50HY/rentora)
 
 ## Technologies Used
 
