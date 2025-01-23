@@ -38,7 +38,7 @@ const Profile = () => {
         <div className="profile-info-container">
           <p><strong>Name:</strong> {userData.name}</p>
           <p><strong>Email:</strong> {userData.email}</p>
-          <a href='UpdatePassword'>Reset Password</a>
+          <a href='UpdatePassword' className="reset-password-link">Reset Password</a>
         </div>
       </div>
     </div>
