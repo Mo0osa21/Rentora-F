@@ -39,9 +39,7 @@ const UserBookings = () => {
             // Update the booking status via API
             UpdateBookingStatus(booking._id, newStatus)
               .then(() => {
-                toast.success(
-                  `Booking ${booking._id} status updated to ${newStatus}`
-                )
+                toast.success(`Booking status updated to ${newStatus}`)
               })
               .catch((error) => {
                 toast.error(
